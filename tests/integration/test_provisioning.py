@@ -28,6 +28,7 @@ def do_test(tmpdir, what, cmd, path="tests/integration"):
     return output
 
 
+@pytest.mark.integration()
 def test_node(tmpdir):
     """Provisioning the node plugin"""
     assert do_test(
