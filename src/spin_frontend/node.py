@@ -34,7 +34,7 @@ defaults = config(
     requires=config(
         spin=["spin_python.python"],
         python=["nodeenv"],
-        npm=["saas", "yarn"],
+        npm=["sass", "yarn"],
     ),
 )
 
