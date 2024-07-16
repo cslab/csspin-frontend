@@ -6,19 +6,22 @@
 
 """Module implementing the integration tests for spin_frontend"""
 
+from os import getcwd
 from os.path import join
 
 import pytest
-from spin import backtick, cli
+from spin import backtick, cd, cli
 
 
 @pytest.fixture(autouse=True)
 def cfg():
     """Fixture creating the configuration tree"""
-    cli.load_config_tree(None)
+    cwd = getcwd()
+    cli.load_config_tree("tests/yamls/minimal.yaml")
+    cd(cwd)
 
 
-def do_test(tmpdir, what, cmd, path="tests/integration"):
+def execute_spin(tmpdir, what, cmd, path="tests/integration"):
     """Helper to execute spin calls via spin."""
     output = backtick(
         f"spin -p spin.cache={tmpdir} -q -C {path} --env {tmpdir} -f"
@@ -31,7 +34,7 @@ def do_test(tmpdir, what, cmd, path="tests/integration"):
 @pytest.mark.integration()
 def test_node(tmpdir):
     """Provisioning the node plugin"""
-    assert do_test(
+    assert execute_spin(
         tmpdir=tmpdir,
         what=join("tests", "integration", "yamls", "node.yaml"),
         cmd="run node --version",

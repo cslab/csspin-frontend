@@ -116,7 +116,7 @@ def provision(cfg: ConfigTree, *args: str) -> None:
             sh(*cmd, *args)
             m.add(cfg.node.version)
 
-        for plugin in cfg.topo_plugins:
+        for plugin in cfg.spin.topo_plugins:
             plugin_module = cfg.loaded[plugin]
             for req in get_requires(plugin_module.defaults, "npm"):
                 if not m.check(req):
