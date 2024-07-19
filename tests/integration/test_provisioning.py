@@ -32,7 +32,18 @@ def execute_spin(tmpdir, what, cmd, path="tests/integration"):
 
 
 @pytest.mark.integration()
-def test_node(tmpdir):
+def test_node_provision(tmpdir):
+    """Provisioning the node plugin"""
+    assert execute_spin(
+        tmpdir=tmpdir,
+        what=join("tests", "integration", "yamls", "node.yaml"),
+        cmd="run node --version",
+    ).endswith("v18.17.1")
+
+
+@pytest.mark.integration()
+@pytest.mark.xfail(reason="Latest plugin-package states may fail")
+def test_node_latest_provision(tmpdir):
     """Provisioning the node plugin"""
     assert execute_spin(
         tmpdir=tmpdir,
