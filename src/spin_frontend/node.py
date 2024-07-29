@@ -80,11 +80,12 @@ def provision(cfg: ConfigTree, *args: str) -> None:
     # node_modules will be placed in venv/Scripts/node_modules instead of
     # venv/Lib/node_modules.
     if sys.platform == "win32":
-        npm_prefix_path = cfg.python.venv / "Lib"
+        npm_prefix_path = cfg.python.venv / "Scripts"
         node_path = npm_prefix_path / "node_modules"
     else:
         npm_prefix_path = cfg.python.venv
         node_path = npm_prefix_path / "lib" / "node_modules"
+
     setenv(
         NODE_PATH=node_path,
         NPM_CONFIG_PREFIX=npm_prefix_path,
