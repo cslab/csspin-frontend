@@ -1,0 +1,27 @@
+# -*- mode: yaml; coding: utf-8 -*-
+#
+# Schema of the cypress plugin for cs.spin
+
+cypress:
+    type: object
+    help: Configuration of the cypress built-in plugin.
+    properties:
+        version:
+            type: str
+            help: Cypress version
+        base_url:
+            type: str
+            help: The URL to connect Cypress with
+        browser:
+            type: str
+            help: The browser to run Cypress in
+        requires:
+            type: object
+            help: Dependencies of the cypress plugin
+            properties:
+                spin:
+                    type: list
+                    help: Spin dependencies of the cypress plugin
+                npm:
+                    type: list
+                    help: npm dependencies of the cypress plugin

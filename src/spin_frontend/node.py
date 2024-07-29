@@ -76,9 +76,6 @@ def provision(cfg: ConfigTree, *args: str) -> None:
     if sys.platform == "win32":
         npm += ".cmd"
 
-    # NODE_PATH and the prefix must be defined in any case, otherwise the
-    # node_modules will be placed in venv/Scripts/node_modules instead of
-    # venv/Lib/node_modules.
     if sys.platform == "win32":
         npm_prefix_path = cfg.python.venv / "Scripts"
         node_path = npm_prefix_path / "node_modules"

@@ -1,0 +1,19 @@
+# spinfile used to test the cypress plugin against the latest released states of
+# the required plugin-packages.
+minimum-spin: '0.2'
+plugin-packages:
+    - spin_python
+    - spin_ce
+    - ../..
+plugins:
+    - spin_frontend.cypress
+node:
+    version: 18.17.1
+    mirror: https://nodejs-proxy.ops.contact.de/dist/
+cypress:
+    version: 10.3.0
+python:
+    version: 3.11.9
+    pipconf:
+        global:
+            index-url: https://packages.contact.de/apps/16.0-dev/+simple/

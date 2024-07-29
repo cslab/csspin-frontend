@@ -84,6 +84,7 @@ TESTCASES = (
     ),
     pytest.param("node_use.yaml", "sass", "1.77.5", id="node_use.yaml:sass"),
     pytest.param("node_use.yaml", "yarn", "1.22.21", id="node_use.yaml:yarn"),
+    pytest.param("cypress.yaml", "cypress", "10.3.0", id="cypress.yaml:cypress"),
 )
 
 
