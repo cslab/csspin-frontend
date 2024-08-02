@@ -16,6 +16,7 @@ from pathlib import Path
 import pytest
 
 NODE_EXISTS = shutil.which("node")
+REDIS_EXISTS = shutil.which("redis")
 
 
 def run_command_in_env(cmd, spin_cmd):
@@ -84,7 +85,16 @@ TESTCASES = (
     ),
     pytest.param("node_use.yaml", "sass", "1.77.5", id="node_use.yaml:sass"),
     pytest.param("node_use.yaml", "yarn", "1.22.21", id="node_use.yaml:yarn"),
-    pytest.param("cypress.yaml", "cypress", "10.3.0", id="cypress.yaml:cypress"),
+    pytest.param(
+        "cypress.yaml",
+        "cypress",
+        "10.3.0",
+        marks=pytest.mark.skipif(
+            not REDIS_EXISTS,
+            reason="redis not installed but required by spin_ce.ce_services dependency.",
+        ),
+        id="cypress.yaml:cypress",
+    ),
 )
 
 
