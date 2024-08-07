@@ -37,7 +37,8 @@ def _run_cypress(  # pylint: disable=keyword-arg-before-vararg
     run=True,
     *args,
 ):
-    from spin_ce.ce_services import with_ce_services
+    from ce_services import RequireAllServices
+    from spin_ce.ce_services import extract_service_config
 
     subcommand = "run" if run else "open"
     inst = os.path.abspath(instance or cfg.mkinstance.dbms)
@@ -46,7 +47,7 @@ def _run_cypress(  # pylint: disable=keyword-arg-before-vararg
     setenv(CADDOK_BASE=inst)
     setenv(CYPRESS_adminpwd="{mkinstance.base.instance_admpwd}")
 
-    with with_ce_services(cfg):
+    with RequireAllServices(cfg_overwrite=extract_service_config(cfg)):
         if subcommand == "run":
             sh(
                 "npx",
