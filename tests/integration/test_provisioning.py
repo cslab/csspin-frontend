@@ -130,3 +130,23 @@ def test_tool_version(spinfile, tool, version, tmp_dir_per_spinfile):
     _, env_cmd = provision_env(spinfile, tmp_dir_per_spinfile)
 
     assert version in run_command_in_env(["run", tool, "--version"], env_cmd)
+
+
+@pytest.mark.integration()
+@pytest.mark.parametrize(
+    "spinfile",
+    [
+        pytest.param("node_version.yaml", id="node_version.yaml"),
+        pytest.param("node_use.yaml", id="node_use.yaml"),
+    ],
+)
+def test_provision_a_second_time(spinfile, tmp_dir_per_spinfile):
+    """
+    Check whether the environment can be provisioned a second time without errors.
+    """
+    _, env_cmd = provision_env(spinfile, tmp_dir_per_spinfile)
+
+    try:
+        run_command_in_env(["--provision"], env_cmd)
+    except subprocess.CalledProcessError as ex:
+        pytest.fail(f"Second provisioning failed with returncode {ex.returncode}.")

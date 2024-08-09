@@ -45,29 +45,21 @@ def configure(cfg: ConfigTree) -> None:
     if interpolate1("{node.use}") != "None":
         cfg.node.requires.python = []
 
-    npm = Path(cfg.python.scriptdir) / "npm"
-    node = Path(cfg.python.scriptdir) / "node"
+    if cfg.node.version is None and not cfg.node.use:
+        die(
+            "Spin's Node.js plugin does not set a default version.\n"
+            "Please choose a version in spinfile.yaml by setting"
+            " node.version"
+        )
+    if cfg.node.version == "system":
+        die("Can't use node.version=system. Try node.use instead.")
 
-    if sys.platform == "win32":
-        npm += ".cmd"
-        node += "exe"
+    if cfg.node.use and not exists(cfg.node.use):
+        import shutil
 
-    if not exists(node) or not exists(npm):
-        if cfg.node.version is None and not cfg.node.use:
-            die(
-                "Spin's Node.js plugin does not set a default version.\n"
-                "Please choose a version in spinfile.yaml by setting"
-                " node.version"
-            )
-        if cfg.node.version == "system":
-            die("Can't use node.version=system. Try node.use instead.")
-
-        if cfg.node.use and not exists(cfg.node.use):
-            import shutil
-
-            if not (interpreter := shutil.which(cfg.node.use)):
-                die(f"Could not finde Node interpreter '{cfg.node.use}'")
-            cfg.node.use = Path(interpreter)
+        if not (interpreter := shutil.which(cfg.node.use)):
+            die(f"Could not finde Node interpreter '{cfg.node.use}'")
+        cfg.node.use = Path(interpreter)
 
 
 def provision(cfg: ConfigTree, *args: str) -> None:
@@ -90,7 +82,7 @@ def provision(cfg: ConfigTree, *args: str) -> None:
     )
 
     with memoizer(cfg.node.memo) as m:
-        if cfg.node.use:
+        if cfg.node.use and not m.check(cfg.node.use):
             node_dir = cfg.node.use.dirname()
             if sys.platform == "win32":
                 copy(cfg.node.use, cfg.python.scriptdir)
@@ -100,7 +92,9 @@ def provision(cfg: ConfigTree, *args: str) -> None:
                 symlink(node_dir / "npm", cfg.python.scriptdir / "npm")
             m.add(cfg.node.use)
 
-        elif cfg.node.version in ("latest", "lts") or not m.check(cfg.node.version):
+        elif cfg.node.version and (
+            cfg.node.version in ("latest", "lts") or not m.check(cfg.node.version)
+        ):
             cmd = [
                 cfg.python.python,
                 "-mnodeenv",

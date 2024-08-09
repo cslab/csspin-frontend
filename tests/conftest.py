@@ -27,6 +27,9 @@ def tmp_dir_per_spinfile(request, tmp_path_factory):
     """
     parametrization_start = request.node.name.find("[")
     parametrization = request.node.name[parametrization_start:]
-    spinfile_name = parametrization[1:].split(":")[0]
+    if ":" in parametrization:
+        spinfile_name = parametrization[1:].split(":")[0]
+    else:
+        spinfile_name = parametrization[1:-1]
     tmp_dir_name = f"{spinfile_name}.d"
     yield tmp_path_factory.getbasetemp() / tmp_dir_name
