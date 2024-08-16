@@ -78,7 +78,6 @@ def provision(cfg: ConfigTree, *args: str) -> None:
     setenv(
         NODE_PATH=node_path,
         NPM_CONFIG_PREFIX=npm_prefix_path,
-        npm_config_prefix=npm_prefix_path,
     )
 
     with memoizer(cfg.node.memo) as m:
