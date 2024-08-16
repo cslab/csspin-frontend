@@ -1,6 +1,5 @@
 # spinfile used to test the cypress plugin against the latest released states of
 # the required plugin-packages.
-minimum-spin: '0.2'
 plugin-packages:
     - spin_python
     - spin_ce
