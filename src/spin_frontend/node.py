@@ -41,7 +41,6 @@ defaults = config(
 
 def configure(cfg: ConfigTree) -> None:
     """Configure the node plugin"""
-    # FIXME: Comparison to None should be done right.
     if interpolate1("{node.use}") != "None":
         cfg.node.requires.python = []
 

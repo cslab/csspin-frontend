@@ -8,6 +8,10 @@ following spin-plugin:
 -   spin_frontend.cypress (source:
     https://code.contact.de/qs/tooling/spin-plugins/-/commit/87399f327a5979c3ef5619291cd12bc26fce04ac)
 
+[cs.spin](https://code.contact.de/qs/spin/cs.spin) is required for developing
+`spin_docs`, installation instructions can be found
+[here](http://qs.pages.contact.de/spin/cs.spin/installation.html).
+
 ## Requirements
 
 -   The cypress plugin requires Python 3.11+ to be used, since it depends on
