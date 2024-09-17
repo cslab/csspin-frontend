@@ -13,6 +13,4 @@ cypress:
     version: 10.3.0
 python:
     version: 3.11.9
-    pipconf:
-        global:
-            index-url: https://packages.contact.de/apps/16.0-dev/+simple/
+    index_url: https://packages.contact.de/apps/16.0-dev/+simple/
