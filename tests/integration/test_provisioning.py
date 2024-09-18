@@ -16,7 +16,7 @@ from pathlib import Path
 import pytest
 
 NODE_EXISTS = shutil.which("node")
-REDIS_EXISTS = shutil.which("redis")
+REDIS_EXISTS = shutil.which("redis-server")
 
 
 def run_command_in_env(cmd, spin_cmd):
