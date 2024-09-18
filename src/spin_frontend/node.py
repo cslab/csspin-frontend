@@ -66,33 +66,35 @@ def provision(cfg: ConfigTree, *args: str) -> None:
     npm = cfg.python.scriptdir / "npm"
     if sys.platform == "win32":
         npm += ".cmd"
-
-    if sys.platform == "win32":
         npm_prefix_path = cfg.python.venv / "Scripts"
         node_path = npm_prefix_path / "node_modules"
     else:
         npm_prefix_path = cfg.python.venv
         node_path = npm_prefix_path / "lib" / "node_modules"
 
-    setenv(
-        NODE_PATH=node_path,
-        NPM_CONFIG_PREFIX=npm_prefix_path,
-    )
-
     with memoizer(cfg.node.memo) as m:
-        if cfg.node.use and not m.check(cfg.node.use):
-            node_dir = cfg.node.use.dirname()
-            if sys.platform == "win32":
-                copy(cfg.node.use, cfg.python.scriptdir)
-                create_npm_cmd(cfg, node_dir)
-            else:
-                copy(cfg.node.use, cfg.python.scriptdir)
-                symlink(node_dir / "npm", cfg.python.scriptdir / "npm")
-            m.add(cfg.node.use)
+        if cfg.node.use:
+            if not m.check(cfg.node.use):
+                setenv(
+                    NODE_PATH=node_path,
+                    NPM_CONFIG_PREFIX=npm_prefix_path,
+                )
+                node_dir = cfg.node.use.dirname()
+                if sys.platform == "win32":
+                    copy(cfg.node.use, cfg.python.scriptdir)
+                    create_npm_cmd(cfg, node_dir)
+                else:
+                    copy(cfg.node.use, cfg.python.scriptdir)
+                    symlink(node_dir / "npm", cfg.python.scriptdir / "npm")
+                m.add(cfg.node.use)
 
         elif cfg.node.version and (
             cfg.node.version in ("latest", "lts") or not m.check(cfg.node.version)
         ):
+            setenv(
+                NODE_PATH=node_path,
+                NPM_CONFIG_PREFIX=npm_prefix_path,
+            )
             cmd = [
                 cfg.python.python,
                 "-mnodeenv",
