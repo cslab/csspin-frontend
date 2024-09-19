@@ -15,13 +15,3 @@ cypress:
         browser:
             type: str
             help: The browser to run Cypress in
-        requires:
-            type: object
-            help: Dependencies of the cypress plugin
-            properties:
-                spin:
-                    type: list
-                    help: Spin dependencies of the cypress plugin
-                npm:
-                    type: list
-                    help: npm dependencies of the cypress plugin
