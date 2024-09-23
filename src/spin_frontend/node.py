@@ -30,7 +30,6 @@ defaults = config(
     use=None,
     mirror=None,
     ignore_ssl_certs=False,
-    memo="{python.venv}/nodeversions.memo",
     requires=config(
         spin=["spin_python.python"],
         python=["nodeenv"],
@@ -72,7 +71,7 @@ def provision(cfg: ConfigTree, *args: str) -> None:
         npm_prefix_path = cfg.python.venv
         node_path = npm_prefix_path / "lib" / "node_modules"
 
-    with memoizer(cfg.node.memo) as m:
+    with memoizer("{python.venv}/nodeversions.memo") as m:
         if cfg.node.use:
             if not m.check(cfg.node.use):
                 setenv(
