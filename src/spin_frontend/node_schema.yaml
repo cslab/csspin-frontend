@@ -18,8 +18,3 @@ node:
         ignore_ssl_certs:
             type: bool
             help: If enabled, ignoring SSL certificate validation checks.
-        memo:
-            type: path
-            help: |
-                Path to the memoizer file storing information about the
-                installed NodeJS version or location in use
