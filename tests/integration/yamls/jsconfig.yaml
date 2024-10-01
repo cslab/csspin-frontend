@@ -1,0 +1,7 @@
+# spinfile used to test the jsconfig plugin against the latest released states of
+# the required plugin-packages.
+plugin-packages:
+    - spin_python
+    - ../..
+plugins:
+    - spin_frontend.jsconfig

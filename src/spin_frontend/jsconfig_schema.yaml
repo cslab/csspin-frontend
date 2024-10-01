@@ -1,0 +1,24 @@
+# -*- mode: yaml; coding: utf-8 -*-
+#
+# Schema of the jsconfig plugin for cs.spin
+
+jsconfig:
+    type: object
+    help: Configuration of the jsconfig plugin.
+    properties:
+        includes:
+            type: list
+            help: List of source paths of the current JS project
+        excludes:
+            type: list
+            help: |
+                List of source paths to JS projects to exclude from searching of
+                package.json
+        search_dirs:
+            type: list
+            help: |
+                Relative paths to directories to search JS projects to be mapped
+                to JS modules in jsconfig.json:compilerOptions.paths
+        base_url:
+            type: str
+            help: The path to the current JS project

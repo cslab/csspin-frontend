@@ -4,7 +4,7 @@
 
 node:
     type: object
-    help: Configuration of the Node built-in plugin.
+    help: Configuration of the Node plugin.
     properties:
         version:
             type: str
