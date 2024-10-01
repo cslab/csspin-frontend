@@ -4,7 +4,7 @@
 
 cypress:
     type: object
-    help: Configuration of the cypress built-in plugin.
+    help: Configuration of the cypress plugin.
     properties:
         version:
             type: str
