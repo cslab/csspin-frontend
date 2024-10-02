@@ -100,7 +100,7 @@ repos:
             files: \.(pyi?|ue)$
     - repo: https://github.com/pycqa/pylint
       # Linting of Python 3 files
-      rev: v3.2.7
+      rev: v3.3.1
       hooks:
           - id: pylint
             args:
@@ -110,7 +110,7 @@ repos:
                 - -j=4
     - repo: https://github.com/PyCQA/bandit
       # Bandit is a tool designed to find common security issues in Python code.
-      rev: 1.7.9
+      rev: 1.7.10
       hooks:
           - id: bandit
             args: [-x=tests] # exclude tests from run

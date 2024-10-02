@@ -30,8 +30,8 @@ def run_command_in_env(cmd, spin_cmd):
 @functools.cache
 def provision_env(spinfile, tmp_path):
     """
-    Helper function to provision a spin environment based on the spinfile provided by
-    spinfile.
+    Helper function to provision a spin environment based on the spinfile
+    provided by spinfile.
 
     Returns a tuple (data, cmd) where `data` is the location of the
     provisioned environments and `cmd` is a commandline as a list to
@@ -56,12 +56,13 @@ def provision_env(spinfile, tmp_path):
         "-f",
         spinfile_path,
     ]
-    cmd = base_cmd + ["--provision"]
+    cmd = base_cmd + ["provision"]
     print(subprocess.list2cmdline(cmd))
     try:
         subprocess.check_output(cmd, encoding="utf-8", stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError as ex:
         print(ex.stdout)
+        print(ex.stderr)
     return (tmp_path, base_cmd)
 
 
@@ -147,6 +148,6 @@ def test_provision_a_second_time(spinfile, tmp_dir_per_spinfile):
     _, env_cmd = provision_env(spinfile, tmp_dir_per_spinfile)
 
     try:
-        run_command_in_env(["--provision"], env_cmd)
+        run_command_in_env(["provision"], env_cmd)
     except subprocess.CalledProcessError as ex:
         pytest.fail(f"Second provisioning failed with returncode {ex.returncode}.")
