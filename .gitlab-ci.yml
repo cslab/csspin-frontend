@@ -8,7 +8,7 @@ include:
 # ------------------------------------------------------------------------------
 test_linux:
     # Use an image that has node installed to the the node.use use-case.
-    image: registry.contact.de/cetest:16.0-3.latest
+    image: registry.contact.de/cetest:16.0-4.latest
 
 # ------------------------------------------------------------------------------
 # FIXME: The following customizations must be removed as soon as spin_frontend
