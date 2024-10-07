@@ -1,6 +1,6 @@
 # YAML used for testing the node plugin to use nodeenv for installing node to
 # then install and run specific npm plugins.
-plugin-packages:
+plugin_packages:
     - spin-python
     - ../..
 plugins:
