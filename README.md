@@ -11,7 +11,7 @@ following spin-plugin:
 -   spin_frontend.jsconfig
 
 [cs.spin](https://code.contact.de/qs/spin/cs.spin) is required for developing
-`spin_docs`, installation instructions can be found
+`spin_frontend`, installation instructions can be found
 [here](http://qs.pages.contact.de/spin/cs.spin/installation.html).
 
 ## Requirements
