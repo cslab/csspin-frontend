@@ -24,6 +24,10 @@ sdist/
 *.cdx.xml
 version.txt
 
+# Documentation
+doc/_build
+doc/plugins/*_schemaref.rst
+
 # Unit test / coverage reports
 .coverage
 .coverage.*
@@ -48,3 +52,5 @@ pytest*.xml
 # virtual and working environments
 .spin*
 venv*/
+.venv/
+jsconfig.json

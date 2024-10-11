@@ -4,7 +4,14 @@
 # All rights reserved.
 # https://www.contact-software.com/
 
-"""This module implements the node plugin for cs.spin."""
+"""This module implements the node plugin for cs.spin.
+
+This plugin allows you to use Node.js in your spin environment. It can be
+configured to use a specific version of Node.js or to use the system's Node.js
+interpreter. If a version is specified, the plugin will install the specified
+version of Node.js using nodeenv. The plugin also installs npm and other
+required npm packages.
+"""
 
 import sys
 from os import symlink

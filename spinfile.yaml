@@ -1,0 +1,35 @@
+# The spinfile.yaml for spin_frontend is required since building the
+# documentation requires a provisioned project.
+
+plugin_packages:
+    - spin_ce
+    - spin_docs
+    - spin_python
+    - '../spin_frontend'
+
+plugins:
+    - spin_docs.sphinx
+    - spin_frontend:
+          - cypress
+          - jsconfig
+          - node
+
+python:
+    version: '3.11.9'
+    requirements:
+        - sphinx-rtd-theme
+    index_url: https://packages.contact.de/apps/16.0-dev/+simple/
+
+node:
+    version: '18.17.1'
+    mirror: https://nodejs-proxy.ops.contact.de/dist/
+
+build_rules:
+    task docs:
+        sources: doc/_schemaref.rst
+    doc/_schemaref.rst:
+        sources: [src/spin_frontend]
+        spin:
+            - schemadoc cypress --rst -o doc/plugins/cypress_schemaref.rst
+            - schemadoc jsconfig --rst -o doc/plugins/jsconfig_schemaref.rst
+            - schemadoc node --rst -o doc/plugins/node_schemaref.rst
