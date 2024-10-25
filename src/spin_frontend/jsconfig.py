@@ -17,7 +17,7 @@ import os
 import re
 
 from path import Path
-from spin import config, echo, exists, info, task, warn
+from spin import config, confirm, echo, exists, info, option, rmtree, task, warn
 
 defaults = config(
     includes=["cs/**/*"],
@@ -31,9 +31,37 @@ defaults = config(
 )
 
 
+def finalize_provision(cfg):  # pylint: disable=unused-argument
+    """Create a jsconfig.json file if not already present."""
+    if not exists("jsconfig.json"):
+        generate_jsconfig(cfg)
+    else:
+        info("jsconfig.json already exists, not generating new one.")
+
+
 @task()
-def jsconfig(cfg):
+def jsconfig(
+    cfg,
+    skip_confirmation: option(
+        "--yes",  # noqa: F821
+        "-y",  # noqa: F821
+        "skip_confirmation",  # noqa: F821
+        is_flag=True,
+        hidden=True,
+    ),
+):
     """Generate a jsconfig.json file"""
+    if not (
+        not exists("jsconfig.json")
+        or skip_confirmation
+        or confirm("You are about to override the jsconfig.json. Continue?")
+    ):
+        generate_jsconfig(cfg)
+
+
+def generate_jsconfig(cfg):
+    """Generates the jsconfig.json file"""
+
     paths_by_package_names = {}
     exclude_patterns = [
         re.compile(fnmatch.translate(pattern)) for pattern in cfg.jsconfig.excludes
@@ -97,5 +125,4 @@ def jsconfig(cfg):
 
 def cleanup(cfg):
     """Remove the jsconfig.json file"""
-    if exists(jsconfig_json := cfg.spin.project_root / "jsconfig.json"):
-        jsconfig_json.unlink()
+    rmtree(cfg.spin.project_root / "jsconfig.json")
