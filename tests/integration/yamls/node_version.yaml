@@ -2,7 +2,7 @@
 # then install and run specific npm plugins.
 plugin_packages:
     - spin-python
-    - ../..
+    - ../../..
 plugins:
     - spin_frontend.node
 node:

@@ -9,9 +9,9 @@
 spin_frontend.cypress
 =====================
 
-The ``spin_frontend.cypress`` plugin provides a way to run the `cypress
-<https://www.cypress.io/>`_ frontend testing tool in the context of cs.spin to
-execute pre-implemented cypress tests for CONTACT Elements instances.
+The ``spin_frontend.cypress`` plugin provides a way to run the `cypress`_
+frontend testing tool in the context of cs.spin to execute pre-implemented
+cypress tests for CONTACT Elements instances.
 
 It provides the ``cypress`` and ``cypress:open`` tasks which either run the
 cypress test suite or opens the browser for interactive exploration.
@@ -44,9 +44,8 @@ How to run cypress tests using ``spin_frontend.cypress``?
 #########################################################
 
 The ``cypress``-task requires an existing CONTACT Elements instance, which can
-be created by using the ``spin_ce.mkinstance`` plugin.
-
-.. TODO: Add documentation pointing to spin_ce.mkinstance
+be created by using the ``spin_ce.mkinstance`` plugin (see
+`create new instance`_).
 
 .. code-block:: bash
    :caption: Running Cypress tests against a CE instance using the cypress
@@ -58,7 +57,8 @@ How to run Cypress tests as part of the "cept" workflow?
 
 Since Cypress tests are considered as acceptance tests, and they are part of the
 "cept" workflow. Leveraging the workflow requires adding adding the
-``spin_conpod`` plugin-package and activating the ``stdworkflows`` plugin.
+``spin_conpod`` plugin-package and activating the ``stdworkflows`` plugin (see
+`spin_conpod.stdworkflows`_).
 
 .. code-block:: yaml
    :caption: Adding the ``spin_conpod`` and ``stdworkflows`` plugin-packages to the ``spinfile.yaml``
@@ -77,8 +77,6 @@ provision and creation of a CE instance:
    :caption: Running the "cept" workflow
 
    spin cept
-
-.. TODO: add link to documentation of spin_conpod.stdworkflows
 
 
 ``spin_frontend.cypress`` schema reference

@@ -10,7 +10,7 @@ spin_frontend.jsconfig
 ======================
 
 ``spin_frontend.jsconfig`` is a plugin that provides a task to create a
-`jsconfig.json <https://code.visualstudio.com/docs/languages/jsconfig>`_ file
+`jsconfig.json`_ file
 for a project. This file can be interpreted by IDEs like Visual Studio Code to
 provide better IntelliSense support for JavaScript and TypeScript projects.
 

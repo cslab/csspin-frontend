@@ -10,8 +10,7 @@ spin_frontend.node
 ==================
 
 The ``spin_frontend.node`` plugin provides a way to provision and
-run `Node.js <https://nodejs.org/>`_ as well as the
-`Node Package Manager NPM <https://www.npmjs.com/>`_.
+run `Node.js`_ as well as the Node Package Manager `npm`_.
 
 How to setup the ``spin_frontend.node`` plugin?
 ###############################################

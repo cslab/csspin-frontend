@@ -1,16 +1,17 @@
-# spinfile used to test the cypress plugin against the latest released states of
+# spinfile used to test the jest plugin against the latest released states of
 # the required plugin-packages.
 plugin_packages:
-    - spin_python
     - spin_ce
+    - spin_python
     - ../../..
 plugins:
-    - spin_frontend.cypress
+    - spin_ce.mkinstance
+    - spin_frontend.jest
+jest:
+    source: ../../..
 node:
-    version: 18.17.1
+    use: node
     mirror: https://nodejs-proxy.ops.contact.de/dist/
-cypress:
-    version: 10.3.0
 python:
     version: 3.11.9
     index_url: https://packages.contact.de/apps/16.0-dev/+simple/
