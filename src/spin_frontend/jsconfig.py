@@ -33,7 +33,7 @@ defaults = config(
 
 def finalize_provision(cfg):  # pylint: disable=unused-argument
     """Create a jsconfig.json file if not already present."""
-    if not exists("jsconfig.json"):
+    if not exists(cfg.spin.project_root / "jsconfig.json"):
         generate_jsconfig(cfg)
     else:
         info("jsconfig.json already exists, not generating new one.")

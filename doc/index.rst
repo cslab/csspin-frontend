@@ -21,5 +21,6 @@ https://packages.contact.de/tools/misc/spin-frontend.
 
    installation.rst
    plugins/cypress.rst
+   plugins/jest.rst
    plugins/jsconfig.rst
    plugins/node.rst

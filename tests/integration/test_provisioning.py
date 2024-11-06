@@ -6,8 +6,6 @@
 
 """Module implementing the integration tests for spin_frontend"""
 
-import functools
-import os
 import shutil
 import subprocess
 import sys
@@ -19,54 +17,24 @@ NODE_EXISTS = shutil.which("node")
 REDIS_EXISTS = shutil.which("redis-server")
 
 
-def run_command_in_env(cmd, spin_cmd):
-    """Helper function to run a subprocess in a provisioned spin environment."""
-    command = spin_cmd.copy()
-    command.extend(cmd)
-    print(subprocess.list2cmdline(command))
-    return subprocess.check_output(command, encoding="utf-8").strip()
-
-
-@functools.cache
-def provision_env(spinfile, tmp_path):
-    """
-    Helper function to provision a spin environment based on the spinfile
-    provided by spinfile.
-
-    Returns a tuple (data, cmd) where `data` is the location of the
-    provisioned environments and `cmd` is a commandline as a list to
-    build commands to run subprocesses inside the provisioned env.
-    """
-    if spinfile == "node_use.yaml" and not shutil.which("node"):
-        pytest.skip("node not available")
-
-    spinfile_path = os.path.join("tests", "integration", "yamls", spinfile)
-    data = tmp_path / ".data"
-    data.mkdir(parents=True, exist_ok=True)
-
-    base_cmd = [
-        "spin",
-        "-q",
-        "-p",
-        f"spin.data={data}",
-        "-C",
-        "tests/integration",
-        "--env",
-        str(tmp_path),
-        "-f",
-        spinfile_path,
-    ]
-    cmd = base_cmd + ["provision"]
-    print(subprocess.list2cmdline(cmd))
+def execute_spin(yaml, env, path="tests/integration/yamls", cmd=""):
+    """Helper function to execute spin and return the output"""
     try:
-        subprocess.check_output(cmd, encoding="utf-8", stderr=subprocess.STDOUT)
+        return subprocess.check_output(
+            (f"spin -q -p spin.data={env} -C {path} --env {env} -f {yaml} {cmd}").split(
+                " "
+            ),
+            encoding="utf-8",
+            stderr=subprocess.PIPE,
+        ).strip()
     except subprocess.CalledProcessError as ex:
         print(ex.stdout)
         print(ex.stderr)
-    return (tmp_path, base_cmd)
+        raise
 
 
-TESTCASES = (
+# Test cases for provisioning tools through plugins
+TOOL_TESTCASES = (
     pytest.param("node_version.yaml", "node", "18.17.0", id="node_version.yaml:node"),
     pytest.param("node_version.yaml", "sass", "1.77.5", id="node_version.yaml:sass"),
     pytest.param("node_version.yaml", "yarn", "1.22.21", id="node_version.yaml:yarn"),
@@ -100,13 +68,13 @@ TESTCASES = (
 
 
 @pytest.mark.integration()
-@pytest.mark.parametrize("spinfile, tool, _version", TESTCASES)
+@pytest.mark.parametrize("spinfile, tool, _version", TOOL_TESTCASES)
 def test_tool_path(spinfile, tool, _version, tmp_dir_per_spinfile):
     """
     Check whether the expected tools with the correct version is available in
     the provisioned env.
     """
-    tmp_path, env_cmd = provision_env(spinfile, tmp_dir_per_spinfile)
+    execute_spin(yaml=spinfile, env=tmp_dir_per_spinfile, cmd="provision")
 
     if sys.platform == "win32":
         cmd = [
@@ -117,20 +85,23 @@ def test_tool_path(spinfile, tool, _version, tmp_dir_per_spinfile):
         ]
     else:
         cmd = ["run", "which", tool]
-    tool_path = Path(run_command_in_env(cmd, env_cmd))
-    assert tmp_path in tool_path.parents
+    tool_path = Path(
+        execute_spin(yaml=spinfile, env=tmp_dir_per_spinfile, cmd=" ".join(cmd))
+    )
+    assert tmp_dir_per_spinfile in tool_path.parents
 
 
 @pytest.mark.integration()
-@pytest.mark.parametrize("spinfile, tool, version", TESTCASES)
+@pytest.mark.parametrize("spinfile, tool, version", TOOL_TESTCASES)
 def test_tool_version(spinfile, tool, version, tmp_dir_per_spinfile):
     """
     Check whether the expected tools with the correct version is available in
     the provisioned env.
     """
-    _, env_cmd = provision_env(spinfile, tmp_dir_per_spinfile)
-
-    assert version in run_command_in_env(["run", tool, "--version"], env_cmd)
+    execute_spin(yaml=spinfile, env=tmp_dir_per_spinfile, cmd="provision")
+    assert version in execute_spin(
+        yaml=spinfile, env=tmp_dir_per_spinfile, cmd=f"run {tool} --version"
+    )
 
 
 @pytest.mark.integration()
@@ -145,9 +116,37 @@ def test_provision_a_second_time(spinfile, tmp_dir_per_spinfile):
     """
     Check whether the environment can be provisioned a second time without errors.
     """
-    _, env_cmd = provision_env(spinfile, tmp_dir_per_spinfile)
+    execute_spin(yaml=spinfile, env=tmp_dir_per_spinfile, cmd="provision")
 
     try:
-        run_command_in_env(["provision"], env_cmd)
+        execute_spin(yaml=spinfile, env=tmp_dir_per_spinfile, cmd="provision")
     except subprocess.CalledProcessError as ex:
         pytest.fail(f"Second provisioning failed with returncode {ex.returncode}.")
+
+
+@pytest.mark.integration()
+def test_jest_provision(tmp_path):
+    """Provision the jest plugin"""
+    yaml = "jest.yaml"
+    execute_spin(yaml=yaml, env=tmp_path, cmd="provision")
+    execute_spin(yaml=yaml, env=tmp_path, cmd="jest --help")
+
+
+@pytest.mark.integration()
+def test_jsconfig_provision(tmp_path):
+    """Provision the jsconfig plugin"""
+    yaml = "jsconfig.yaml"
+    # jsconfig.json is created in spin.project_root, so lets define it here in
+    # order to delete the generated file at the end of the test.
+    # The project_root can't be set to some temporary directory, because this
+    # depends on the location of the spinfile passed.
+    project_root = Path("tests/integration/yamls")
+
+    try:
+        execute_spin(yaml=yaml, env=tmp_path, path=project_root, cmd="provision")
+        assert (project_root / "jsconfig.json").exists()
+
+        execute_spin(yaml=yaml, env=tmp_path, path=project_root, cmd="jsconfig --help")
+    finally:
+        execute_spin(yaml=yaml, env=tmp_path, path=project_root, cmd="cleanup")
+        assert not (project_root / "jsconfig.json").exists()

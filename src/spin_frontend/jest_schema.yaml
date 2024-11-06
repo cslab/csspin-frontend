@@ -1,0 +1,26 @@
+# -*- mode: yaml; coding: utf-8 -*-
+#
+# Schema of the jest plugin for cs.spin
+
+jest:
+    type: object
+    help: Configuration of the jest plugin.
+    properties:
+        coverage:
+            type: bool
+            help: Run jest with collecting coverage
+        coverage_opts:
+            type: list
+            help: |
+                List of options to pass to jest when running with coverage
+                enabled.
+        opts:
+            type: list
+            help: List of options to pass to jest.
+        report_opts:
+            type: list
+            help: |
+                List of options to pass to jest when generating test reports.
+        source:
+            type: str
+            help: The source directory when looking for jest.config.json.

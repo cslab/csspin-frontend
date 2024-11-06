@@ -2,6 +2,11 @@
 # the required plugin-packages.
 plugin_packages:
     - spin_python
-    - ../..
+    - ../../..
 plugins:
     - spin_frontend.jsconfig
+node:
+    use: node
+    mirror: https://nodejs-proxy.ops.contact.de/dist/
+python:
+    use: python

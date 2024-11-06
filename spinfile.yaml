@@ -11,6 +11,7 @@ plugins:
     - spin_docs.sphinx
     - spin_frontend:
           - cypress
+          - jest
           - jsconfig
           - node
 
@@ -24,6 +25,9 @@ node:
     version: '18.17.1'
     mirror: https://nodejs-proxy.ops.contact.de/dist/
 
+jest:
+    source: .
+
 build_rules:
     task docs:
         sources: doc/_schemaref.rst
@@ -31,5 +35,6 @@ build_rules:
         sources: [src/spin_frontend]
         spin:
             - schemadoc cypress --rst -o doc/plugins/cypress_schemaref.rst
+            - schemadoc jest --rst -o doc/plugins/jest_schemaref.rst
             - schemadoc jsconfig --rst -o doc/plugins/jsconfig_schemaref.rst
             - schemadoc node --rst -o doc/plugins/node_schemaref.rst
