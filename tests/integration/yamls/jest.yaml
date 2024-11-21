@@ -3,10 +3,14 @@
 plugin_packages:
     - spin_ce
     - spin_python
+    - spin_java
     - ../../..
 plugins:
     - spin_ce.mkinstance
+    - spin_java.java
     - spin_frontend.jest
+java:
+    version: '21'
 jest:
     source: ../../..
 node:

@@ -5,7 +5,8 @@ plugin_packages:
     - spin_ce
     - spin_docs
     - spin_python
-    - '../spin_frontend'
+    - spin_java
+    - .
 
 plugins:
     - spin_docs.sphinx
@@ -14,6 +15,10 @@ plugins:
           - jest
           - jsconfig
           - node
+    - spin_java.java
+
+java:
+    version: '21'
 
 python:
     version: '3.11.9'
