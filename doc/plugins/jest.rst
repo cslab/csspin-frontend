@@ -29,6 +29,7 @@ must at least contain the following configuration.
     :caption: Minimal configuration of ``spinfile.yaml`` to use ``spin_frontend.jsconfig``
 
     plugin_packages:
+        - spin_java     # required by spin_ce
         - spin_ce
         - spin_frontend
         - spin_python
@@ -40,6 +41,8 @@ must at least contain the following configuration.
         index_url: https://packages.contact.de/apps/16.0-dev/+simple/
     node:
         version: '18.20.0'
+    java:
+        version: '17'
 
 The provisioning of the required virtual environment as well as the plugins
 dependencies can be done via the well-known ``spin provision``-command.

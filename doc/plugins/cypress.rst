@@ -26,7 +26,8 @@ must at least contain the following configuration.
     :caption: Minimal configuration of ``spinfile.yaml`` to use ``spin_frontend.cypress``
 
     plugin_packages:
-        - spin_ce # required for creating a CE instance
+        - spin_java     # required by spin_ce
+        - spin_ce       # required for creating a CE instance
         - spin_python
         - spin_frontend
     plugins:
@@ -36,6 +37,8 @@ must at least contain the following configuration.
         index_url: <the index URL to retrieve cs.platform as dependency of spin_ce>
     node:
         version: '18.17.1'
+    java:
+        version: '17'
 
 The provisioning of the required virtual environment as well as the plugins
 dependencies can be done via the well-known ``spin provision``-command.

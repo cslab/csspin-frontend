@@ -18,8 +18,9 @@ within a project's ``spinfile.yaml``.
     :caption: Example: ``spinfile.yaml`` setup to enable the pytest and python plugins
 
     plugin_packages:
-        - spin_ce # required by spin_frontend.cypress
-        - spin_python # required by spin_frontend
+        - spin_java     # required by spin_ce
+        - spin_ce       # required by spin_frontend
+        - spin_python   # required by spin_frontend
         - spin_frontend
     plugins:
         - spin_frontend:
@@ -32,6 +33,8 @@ within a project's ``spinfile.yaml``.
         index_url: https://packages.contact.de/apps/16.0-dev/+simple/
     node:
         version: 18.17.1
+    java:
+        version: '17'
 
 After the setup is done, the plugin-package can be provisioned by executing the
 following command within the project's directory:
