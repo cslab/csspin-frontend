@@ -6,6 +6,7 @@
 
 """Module implementing the integration tests for spin_frontend"""
 
+import shlex
 import shutil
 import subprocess
 import sys
@@ -14,16 +15,22 @@ from pathlib import Path
 import pytest
 
 NODE_EXISTS = shutil.which("node")
+NODE_DOES_NOT_EXIST_SKIP = pytest.mark.skipif(
+    not NODE_EXISTS, reason="node not installed."
+)
 REDIS_EXISTS = shutil.which("redis-server")
 
 
 def execute_spin(yaml, env, path="tests/integration/yamls", cmd=""):
     """Helper function to execute spin and return the output"""
     try:
+        cmd = shlex.split(
+            f"spin -q -p spin.data={env} -C {path} --env {env} -f {yaml} {cmd}",
+            posix=sys.platform != "win32",
+        )
+        print(subprocess.list2cmdline(cmd))
         return subprocess.check_output(
-            (f"spin -q -p spin.data={env} -C {path} --env {env} -f {yaml} {cmd}").split(
-                " "
-            ),
+            cmd,
             encoding="utf-8",
             stderr=subprocess.PIPE,
         ).strip()
@@ -50,10 +57,22 @@ TOOL_TESTCASES = (
             ).strip()
         ),
         id="node_use.yaml:node",
-        marks=pytest.mark.skipif(not NODE_EXISTS, reason="node not installed."),
+        marks=NODE_DOES_NOT_EXIST_SKIP,
     ),
-    pytest.param("node_use.yaml", "sass", "1.77.5", id="node_use.yaml:sass"),
-    pytest.param("node_use.yaml", "yarn", "1.22.21", id="node_use.yaml:yarn"),
+    pytest.param(
+        "node_use.yaml",
+        "sass",
+        "1.77.5",
+        id="node_use.yaml:sass",
+        marks=NODE_DOES_NOT_EXIST_SKIP,
+    ),
+    pytest.param(
+        "node_use.yaml",
+        "yarn",
+        "1.22.21",
+        id="node_use.yaml:yarn",
+        marks=NODE_DOES_NOT_EXIST_SKIP,
+    ),
     pytest.param(
         "cypress.yaml",
         "cypress",
@@ -109,7 +128,9 @@ def test_tool_version(spinfile, tool, version, tmp_dir_per_spinfile):
     "spinfile",
     [
         pytest.param("node_version.yaml", id="node_version.yaml"),
-        pytest.param("node_use.yaml", id="node_use.yaml"),
+        pytest.param(
+            "node_use.yaml", id="node_use.yaml", marks=NODE_DOES_NOT_EXIST_SKIP
+        ),
     ],
 )
 def test_provision_a_second_time(spinfile, tmp_dir_per_spinfile):
@@ -125,6 +146,7 @@ def test_provision_a_second_time(spinfile, tmp_dir_per_spinfile):
 
 
 @pytest.mark.integration()
+@NODE_DOES_NOT_EXIST_SKIP
 def test_jest_provision(tmp_path):
     """Provision the jest plugin"""
     yaml = "jest.yaml"
@@ -133,6 +155,7 @@ def test_jest_provision(tmp_path):
 
 
 @pytest.mark.integration()
+@NODE_DOES_NOT_EXIST_SKIP
 def test_jsconfig_provision(tmp_path):
     """Provision the jsconfig plugin"""
     yaml = "jsconfig.yaml"
