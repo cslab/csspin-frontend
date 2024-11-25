@@ -5,6 +5,8 @@ requires = ["setuptools>=64", "setuptools_scm>=8"]
 [project]
 authors = [{name = "CONTACT Software GmbH"}]
 dependencies = [
+  "spin_ce",
+  "spin_python",
   "tomli;python_version<'3.11'"  # Needed, so that cypress can use ce_services.RequireAllServices
 ]
 description = "Plugin package for cs.spin providing frontend related plugins"
