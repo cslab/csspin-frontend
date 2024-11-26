@@ -17,10 +17,7 @@ defaults = config(
         "--passWithNoTests",
         "--noStackTrace",
     ],
-    report_opts=[
-        "--reporters=default",
-        "--reporters=jest-junit",
-    ],
+    report_opts=["--reporters=default", "--reporters=@casualbot/jest-sonar-reporter"],
     source="{spin.project_root}/cs",
     requires=config(
         spin=[
@@ -63,6 +60,13 @@ def jest(  # pylint: disable=too-many-arguments,too-many-positional-arguments
     if debug:
         opts.append("--debug")
     if with_test_report and cfg.jest.report_opts:
+        sh(
+            "yarn",
+            "add",
+            "@casualbot/jest-sonar-reporter",
+            env={"NODE_PATH": instance / "node_modules"},
+            cwd=instance,
+        )
         opts.extend(cfg.jest.report_opts)
 
     setenv(CADDOK_BASE=instance)
