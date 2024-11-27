@@ -8,6 +8,8 @@ following spin-plugin:
 -   spin_frontend.cypress (source:
     https://code.contact.de/qs/tooling/spin-plugins/-/commit/87399f327a5979c3ef5619291cd12bc26fce04ac)
 
+Additional plugins:
+
 -   spin_frontend.jest
 -   spin_frontend.jsconfig
 
