@@ -6,12 +6,17 @@
 
 """Module implementing the jest plugin for cs.spin."""
 
+import os
+
 from path import Path
 from spin import Verbosity, config, die, interpolate1, option, setenv, sh, task
 
 defaults = config(
     coverage=False,
-    coverage_opts=["--coverage"],
+    coverage_opts=[
+        "--coverage",
+        f"--coverageDirectory={{spin.project_root}}{os.path.sep}jest_coverage",
+    ],
     opts=[
         "--ci",
         "--passWithNoTests",
