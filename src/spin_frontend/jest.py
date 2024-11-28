@@ -54,7 +54,9 @@ def jest(  # pylint: disable=too-many-arguments,too-many-positional-arguments
     args,
 ):
     """Run jest tests against a CE instance."""
-    if not (instance := Path(instance or cfg.mkinstance.dbms).absolute()).is_dir():
+    if not (
+        instance := Path(instance or cfg.mkinstance.base.instance_location).absolute()
+    ).is_dir():
         die(f"Cannot find CE instance '{instance}'.")
 
     opts = cfg.jest.opts

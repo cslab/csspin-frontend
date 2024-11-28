@@ -41,7 +41,7 @@ def _run_cypress(  # pylint: disable=keyword-arg-before-vararg
     from spin_ce.ce_services import extract_service_config
 
     subcommand = "run" if run else "open"
-    inst = os.path.abspath(instance or cfg.mkinstance.dbms)
+    inst = os.path.abspath(instance or cfg.mkinstance.base.instance_location)
     if not os.path.isdir(inst):
         die(f"Cannot find the CE instance '{inst}'.")
     setenv(CADDOK_BASE=inst)
