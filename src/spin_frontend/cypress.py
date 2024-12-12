@@ -77,9 +77,16 @@ def _run_cypress(  # pylint: disable=keyword-arg-before-vararg
 @task(when="cept")
 def cypress(
     cfg,
-    instance: option("-i", "--instance"),  # noqa: F821
+    instance: option(
+        "-i",  # noqa: F821
+        "--instance",  # noqa: F821
+        help="Directory of the CONTACT Elements instance.",  # noqa: F722
+    ),
     coverage: option(  # pylint: disable=unused-argument
-        "-c", "--coverage", is_flag=True  # noqa: F821
+        "-c",  # noqa: F821
+        "--coverage",  # noqa: F821
+        is_flag=True,
+        help="Run the tests while collecting coverage.",  # noqa: F722
     ),  # Needed for cept workflow
     args,
 ):
@@ -90,9 +97,16 @@ def cypress(
 @task("cypress:open")
 def cypress_open(
     cfg,
-    instance: option("-i", "--instance"),  # noqa: F821
+    instance: option(
+        "-i",  # noqa: F821
+        "--instance",  # noqa: F821
+        help="Directory of the CONTACT Elements instance.",  # noqa: F722
+    ),
     coverage: option(  # pylint: disable=unused-argument
-        "-c", "--coverage", is_flag=True  # noqa: F821
+        "-c",  # noqa: F821
+        "--coverage",  # noqa: F821
+        is_flag=True,
+        help="Run the tests while collecting coverage.",  # noqa: F722
     ),  # Needed for cept workflow
     args,
 ):
