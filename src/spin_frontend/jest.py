@@ -9,7 +9,11 @@
 import os
 
 from path import Path
-from spin import Verbosity, config, die, interpolate1, option, setenv, sh, task
+
+try:
+    from csspin import Verbosity, config, die, interpolate1, option, setenv, sh, task
+except ImportError:
+    from spin import Verbosity, config, die, interpolate1, option, setenv, sh, task
 
 defaults = config(
     coverage=False,

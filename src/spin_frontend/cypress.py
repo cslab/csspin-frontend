@@ -13,7 +13,10 @@ start the services necessary for the testing.
 
 import os
 
-from spin import config, die, option, setenv, sh, task
+try:
+    from csspin import config, die, option, setenv, sh, task
+except ImportError:
+    from spin import config, die, option, setenv, sh, task
 
 defaults = config(
     version="13.6.3",
