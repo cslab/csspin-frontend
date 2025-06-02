@@ -3,15 +3,15 @@
 This repository contains the spin plugin-package spin_frontend. It provides the
 following spin-plugin:
 
--   spin_frontend.node (source:
-    https://code.contact.de/qs/spin/cs.spin/-/commit/a6cd9906504e9761a5b888add26dfe0d62809bd7)
--   spin_frontend.cypress (source:
-    https://code.contact.de/qs/tooling/spin-plugins/-/commit/87399f327a5979c3ef5619291cd12bc26fce04ac)
+- spin_frontend.node (source:
+  https://code.contact.de/qs/spin/cs.spin/-/commit/a6cd9906504e9761a5b888add26dfe0d62809bd7)
+- spin_frontend.cypress (source:
+  https://code.contact.de/qs/tooling/spin-plugins/-/commit/87399f327a5979c3ef5619291cd12bc26fce04ac)
 
 Additional plugins:
 
--   spin_frontend.jest
--   spin_frontend.jsconfig
+- spin_frontend.jest
+- spin_frontend.jsconfig
 
 [cs.spin](https://code.contact.de/qs/spin/cs.spin) is required for developing
 `spin_frontend`, installation instructions can be found
@@ -19,8 +19,8 @@ Additional plugins:
 
 ## Requirements
 
--   The cypress plugin requires Python 3.11+ to be used, since it depends on
-    spin_ce.ce_services.
+- The cypress plugin requires Python 3.11+ to be used, since it depends on
+  spin_ce.ce_services.
 
 ## Creating a New Release
 

@@ -17,7 +17,11 @@ import os
 import re
 
 from path import Path
-from spin import config, confirm, echo, exists, info, option, rmtree, task, warn
+
+try:
+    from csspin import config, confirm, echo, exists, info, option, rmtree, task, warn
+except ImportError:
+    from spin import config, confirm, echo, exists, info, option, rmtree, task, warn
 
 defaults = config(
     includes=["cs/**/*"],

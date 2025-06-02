@@ -17,21 +17,38 @@ import sys
 from os import symlink
 from textwrap import dedent
 
-from spin import (
-    Path,
-    config,
-    copy,
-    die,
-    exists,
-    get_requires,
-    interpolate1,
-    memoizer,
-    rmtree,
-    setenv,
-    sh,
-    writetext,
-)
-from spin.tree import ConfigTree
+try:
+    from csspin import (
+        Path,
+        config,
+        copy,
+        die,
+        exists,
+        get_requires,
+        interpolate1,
+        memoizer,
+        rmtree,
+        setenv,
+        sh,
+        writetext,
+    )
+    from csspin.tree import ConfigTree
+except ImportError:
+    from spin import (
+        Path,
+        config,
+        copy,
+        die,
+        exists,
+        get_requires,
+        interpolate1,
+        memoizer,
+        rmtree,
+        setenv,
+        sh,
+        writetext,
+    )
+    from spin.tree import ConfigTree
 
 defaults = config(
     version=None,
