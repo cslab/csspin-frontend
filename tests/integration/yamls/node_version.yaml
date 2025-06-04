@@ -1,7 +1,9 @@
 # YAML used for testing the node plugin to use nodeenv for installing node to
 # then install and run specific npm plugins.
+spin:
+    index_url: https://packages.contact.de/tools/stable
 plugin_packages:
-    - spin-python
+    - spin_python
     - ../../..
 plugins:
     - spin_frontend.node
