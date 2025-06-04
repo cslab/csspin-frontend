@@ -1,5 +1,7 @@
 # spinfile used to test the jest plugin against the latest released states of
 # the required plugin-packages.
+spin:
+    index_url: https://packages.contact.de/tools/stable
 plugin_packages:
     - spin_ce
     - spin_python
