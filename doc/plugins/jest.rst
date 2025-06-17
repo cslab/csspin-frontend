@@ -3,14 +3,26 @@
    All rights reserved.
    https://www.contact-software.com/
 
-.. _spin_frontend.jest:
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
 
-==================
-spin_frontend.jest
-==================
+       http://www.apache.org/licenses/LICENSE-2.0
 
-``spin_frontend.jest`` is a plugin that provides a task to run `Jest`_ tests for
-the current project. It requires one or more ``jest.config.json`` (or
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+.. _csspin_frontend.jest:
+
+====================
+csspin_frontend.jest
+====================
+
+``csspin_frontend.jest`` is a plugin that provides a task to run `Jest`_ tests
+for the current project. It requires one or more ``jest.config.json`` (or
 ``jest.config.js``) files to be present in the project source tree.
 
 The Jest plugin does not install Jest from npm, but uses the webmake of an
@@ -19,26 +31,26 @@ existing instance.
 The ``jest`` task is part of the "test" workflow and can be leveraged by
 importing making use of `spin_conpod.stdworkflows`_.
 
-How to setup the ``spin_frontend.jest`` plugin?
-###############################################
+How to setup the ``csspin_frontend.jest`` plugin?
+#################################################
 
-For using the ``spin_frontend.jsconfig`` plugin, a project's ``spinfile.yaml``
+For using the ``csspin_frontend.jsconfig`` plugin, a project's ``spinfile.yaml``
 must at least contain the following configuration.
 
 .. code-block:: yaml
-    :caption: Minimal configuration of ``spinfile.yaml`` to use ``spin_frontend.jsconfig``
+    :caption: Minimal configuration of ``spinfile.yaml`` to use ``csspin_frontend.jsconfig``
 
     plugin_packages:
-        - spin_java     # required by spin_ce
-        - spin_ce
-        - spin_frontend
-        - spin_python
+        - csspin-java     # required by csspin_ce
+        - csspin-ce
+        - csspin-frontend
+        - csspin-python
     plugins:
-        - spin_ce.mkinstance
-        - spin_frontend.jest
+        - csspin_ce.mkinstance
+        - csspin_frontend.jest
     python:
         version: '3.11.9'
-        index_url: https://packages.contact.de/apps/16.0-dev/+simple/
+        index_url: <URL to retrieve CE packages from>
     node:
         version: '18.20.0'
     java:
@@ -47,8 +59,8 @@ must at least contain the following configuration.
 The provisioning of the required virtual environment as well as the plugins
 dependencies can be done via the well-known ``spin provision``-command.
 
-How to run the ``jest`` task using ``spin_frontend.jest``?
-##########################################################
+How to run the ``jest`` task using ``csspin_frontend.jest``?
+############################################################
 
 The ``jest`` requires the existence of a CE instance (see `create new
 instance`_).
@@ -77,7 +89,7 @@ the following command, assuming that the CE instance is already created and
    :caption: Adding the ``spin_conpod`` and ``stdworkflows`` plugin-packages to the ``spinfile.yaml``
 
     plugin_packages:
-        - spin_conpod
+        - spin-conpod # FIXME: this must be csspin_workflows
         ...
     plugins:
         - spin_conpod.stdworkflows
@@ -91,13 +103,13 @@ provision and creation of a CE instance:
 
    spin test
 
-How to debug jest tests using ``spin_frontend.jest``?
-#####################################################
+How to debug jest tests using ``csspin_frontend.jest``?
+#######################################################
 
 The ``jest`` task supports the ``--debug`` option to run the tests in debug
 mode, which starts listening and waits for a debugger to attach.
 
-``spin_frontend.jest`` schema reference
-#######################################
+``csspin_frontend.jest`` schema reference
+#########################################
 
 .. include:: jest_schemaref.rst

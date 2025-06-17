@@ -1,6 +1,6 @@
 # -*- mode: yaml; coding: utf-8 -*-
 #
-# Schema of the jsconfig plugin for cs.spin
+# Schema of the jsconfig plugin for csspin
 
 jsconfig:
     type: object

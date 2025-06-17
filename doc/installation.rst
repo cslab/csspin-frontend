@@ -1,36 +1,45 @@
 .. -*- coding: utf-8 -*-
    Copyright (C) 2024 CONTACT Software GmbH
-   All rights reserved.
    https://www.contact-software.com/
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
 
 ======================
 Installation and setup
 ======================
 
-cs.spin must be installed beforehand, this can be done as documented at
-http://qs.pages.contact.de/spin/cs.spin/installation.html.
+`csspin`_ must be installed.
 
-For leveraging plugins from within the ``spin_frontend`` plugin-package for
-``cs.spin``, the plugin-package must be added to the list of plugin-packages
+For leveraging plugins from within the ``csspin-frontend`` plugin-package for
+``csspin``, the plugin-package must be added to the list of plugin-packages
 within a project's ``spinfile.yaml``.
 
 .. code-block:: yaml
     :caption: Example: ``spinfile.yaml`` setup to enable the pytest and python plugins
 
     plugin_packages:
-        - spin_java     # required by spin_ce
-        - spin_ce       # required by spin_frontend
-        - spin_python   # required by spin_frontend
-        - spin_frontend
+        - csspin-java     # required by csspin-ce
+        - csspin-ce       # required by csspin-frontend
+        - csspin-python   # required by csspin-frontend
+        - csspin-frontend
     plugins:
-        - spin_frontend:
+        - csspin_frontend:
             - cypress
             - jsconfig
             - node
     python:
         version: "3.11.9"
-        # The index-url must be set in order to install spin_ce's dependencies
-        index_url: https://packages.contact.de/apps/16.0-dev/+simple/
+        index_url: <URL to retrieve CE packages from>
     node:
         version: 18.17.1
     java:

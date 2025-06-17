@@ -3,13 +3,13 @@
 spin:
     index_url: https://packages.contact.de/tools/stable
 plugin_packages:
-    - spin_python
-    - spin_ce
-    - spin_java
+    - spin-python
+    - spin-ce
+    - spin-java
     - ../../..
 plugins:
     - spin_java.java
-    - spin_frontend.cypress
+    - csspin_frontend.cypress
 node:
     version: 18.17.1
     mirror: https://nodejs-proxy.ops.contact.de/dist/

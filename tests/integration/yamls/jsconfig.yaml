@@ -3,10 +3,10 @@
 spin:
     index_url: https://packages.contact.de/tools/stable
 plugin_packages:
-    - spin_python
+    - spin-python
     - ../../..
 plugins:
-    - spin_frontend.jsconfig
+    - csspin_frontend.jsconfig
 node:
     use: node
     mirror: https://nodejs-proxy.ops.contact.de/dist/

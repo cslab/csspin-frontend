@@ -1,19 +1,20 @@
-# The spinfile.yaml for spin_frontend is required since building the
+# The spinfile.yaml for csspin_frontend is required since building the
 # documentation requires a provisioned project.
 
 spin:
+    project_name: csspin_frontend
     index_url: https://packages.contact.de/tools/stable
 
 plugin_packages:
-    - spin_ce
-    - spin_docs
-    - spin_python
-    - spin_java
+    - spin-ce
+    - spin-docs
+    - spin-python
+    - spin-java
     - .
 
 plugins:
     - spin_docs.sphinx
-    - spin_frontend:
+    - csspin_frontend:
           - cypress
           - jest
           - jsconfig
@@ -40,7 +41,7 @@ build_rules:
     task docs:
         sources: doc/_schemaref.rst
     doc/_schemaref.rst:
-        sources: [src/spin_frontend]
+        sources: [src/csspin_frontend]
         spin:
             - schemadoc cypress --rst -o doc/plugins/cypress_schemaref.rst
             - schemadoc jest --rst -o doc/plugins/jest_schemaref.rst
