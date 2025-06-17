@@ -7,19 +7,19 @@ spin:
 
 plugin_packages:
     - spin-ce
-    - spin-docs
-    - spin-python
-    - spin-java
+    - csspin-docs
+    - csspin-python
+    - csspin-java
     - .
 
 plugins:
-    - spin_docs.sphinx
+    - csspin_docs.sphinx
     - csspin_frontend:
           - cypress
           - jest
           - jsconfig
           - node
-    - spin_java.java
+    - csspin_java.java
 
 java:
     version: '21'

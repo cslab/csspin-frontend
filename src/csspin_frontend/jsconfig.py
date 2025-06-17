@@ -42,7 +42,7 @@ defaults = config(
     ],
     search_dirs=["{python.site_packages}"],
     base_url="{spin.project_root}",
-    requires=config(spin=["spin_python.python"]),
+    requires=config(spin=["csspin_python.python"]),
 )
 
 

@@ -35,10 +35,10 @@ defaults = config(
     browser="chrome",
     requires=config(
         spin=[
-            "spin_ce.ce_services",
-            "spin_ce.mkinstance",
+            "spin_ce.ce_services",  # FIXME: use csspin-ce
+            "spin_ce.mkinstance",  # FIXME: use csspin-ce
             "csspin_frontend.node",
-            "spin_python.python",
+            "csspin_python.python",
         ],
         npm=["cypress@{cypress.version}"],
     ),
