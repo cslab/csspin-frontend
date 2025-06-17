@@ -20,7 +20,7 @@ classifiers = [
   "Topic :: Software Development"
 ]
 dependencies = [
-  # "csspin-ce", # FIXME Add after csspin-ce is released
+  "csspin-ce",
   "csspin-python",
   "tomli;python_version<'3.11'"  # Needed, so that cypress can use ce_services.RequireAllServices
 ]

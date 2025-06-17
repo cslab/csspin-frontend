@@ -79,7 +79,7 @@ TOOL_TESTCASES = (
         "10.3.0",
         marks=pytest.mark.skipif(
             not REDIS_EXISTS,
-            reason="redis not installed but required by spin_ce.ce_services dependency.",
+            reason="redis not installed but required by csspin_ce.ce_services dependency.",
         ),
         id="cypress.yaml:cypress",
     ),

@@ -37,7 +37,7 @@ must at least contain the following configuration.
     :caption: Minimal configuration of ``spinfile.yaml`` to use ``csspin_frontend.cypress``
 
     plugin_packages:
-        - csspin-java     # required by spin_ce
+        - csspin-java     # required by spin-ce
         - csspin-ce       # required for creating a CE instance
         - csspin-python
         - csspin-frontend
@@ -45,7 +45,7 @@ must at least contain the following configuration.
         - csspin_frontend.cypress
     python:
         version: '3.11.9'
-        index_url: <the index URL to retrieve cs.platform as dependency of spin_ce>
+        index_url: <URL to retrieve CE packages from>
     node:
         version: '18.17.1'
     java:
