@@ -4,11 +4,11 @@ spin:
     index_url: https://packages.contact.de/tools/stable
 plugin_packages:
     - spin-ce
-    - spin-python
-    - spin-java
+    - csspin-python
+    - csspin-java
     - ../../..
 plugins:
-    - spin_java.java
+    - csspin_java.java
     - csspin_frontend.jest
 java:
     version: '21'

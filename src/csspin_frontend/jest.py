@@ -41,9 +41,9 @@ defaults = config(
     source="{spin.project_root}/cs",
     requires=config(
         spin=[
-            "spin_python.python",
+            "csspin_python.python",
             "csspin_frontend.node",
-            "spin_ce.mkinstance",
+            "spin_ce.mkinstance",  # FIXME: use csspin-ce
         ],
         python=["cs.web"],
     ),

@@ -67,7 +67,7 @@ defaults = config(
     mirror=None,
     ignore_ssl_certs=False,
     requires=config(
-        spin=["spin_python.python"],
+        spin=["csspin_python.python"],
         python=["nodeenv"],
         npm=["sass", "yarn"],
     ),
