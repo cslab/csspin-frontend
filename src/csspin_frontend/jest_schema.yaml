@@ -1,6 +1,6 @@
 # -*- mode: yaml; coding: utf-8 -*-
 #
-# Schema of the jest plugin for cs.spin
+# Schema of the jest plugin for csspin
 
 jest:
     type: object

@@ -1,6 +1,6 @@
 # -*- mode: yaml; coding: utf-8 -*-
 #
-# Schema of the cypress plugin for cs.spin
+# Schema of the cypress plugin for csspin
 
 cypress:
     type: object

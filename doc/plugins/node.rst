@@ -1,31 +1,42 @@
 .. -*- coding: utf-8 -*-
    Copyright (C) 2024 CONTACT Software GmbH
-   All rights reserved.
    https://www.contact-software.com/
 
-.. _spin_frontend.node:
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
 
-==================
-spin_frontend.node
-==================
+       http://www.apache.org/licenses/LICENSE-2.0
 
-The ``spin_frontend.node`` plugin provides a way to provision and
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+.. _csspin_frontend.node:
+
+====================
+csspin_frontend.node
+====================
+
+The ``csspin_frontend.node`` plugin provides a way to provision and
 run `Node.js`_ as well as the Node Package Manager `npm`_.
 
-How to setup the ``spin_frontend.node`` plugin?
-###############################################
+How to setup the ``csspin_frontend.node`` plugin?
+#################################################
 
-For using the ``spin_frontend.node`` plugin, a project's ``spinfile.yaml``
+For using the ``csspin_frontend.node`` plugin, a project's ``spinfile.yaml``
 must at least contain the following configuration.
 
 .. code-block:: yaml
-    :caption: Minimal configuration of ``spinfile.yaml`` to use ``spin_frontend.node``
+    :caption: Minimal configuration of ``spinfile.yaml`` to use ``csspin_frontend.node``
 
     plugin_packages:
-        - spin_python
-        - spin_frontend
+        - csspin-python
+        - csspin-frontend
     plugins:
-        - spin_frontend.node
+        - csspin_frontend.node
     python:
         version: '3.11.9'
     node:
@@ -34,13 +45,13 @@ must at least contain the following configuration.
 The provisioning of the required virtual environment as well as the plugins
 dependencies can be done via the well-known ``spin provision``-command.
 
-How to run tools provisioned by ``spin_frontend.node``?
-#######################################################
+How to run tools provisioned by ``csspin_frontend.node``?
+#########################################################
 
 After the project is provisioned, ``node`` node can be used as follows:
 
 .. code-block:: bash
-    :caption: Running tools provisioned by ``spin_frontend.node``
+    :caption: Running tools provisioned by ``csspin_frontend.node``
 
     spin run node # Run the Node.js REPL
     spin run npm install <package> # Install a package using NPM
@@ -49,7 +60,7 @@ After the project is provisioned, ``node`` node can be used as follows:
 How to use a local Node.js installation?
 ########################################
 
-The ``spin_frontend.node`` plugin allows to use a local Node.js installation
+The ``csspin_frontend.node`` plugin allows to use a local Node.js installation
 instead of provisioning a new one. This can be done by setting the ``node.use``
 property to the path of the local Node.js installation. This can be done in the
 ``spinfile.yaml`` or via the command line.
@@ -74,7 +85,7 @@ done by setting the ``node.mirror`` property to the URL of the mirror.
         version: '18.17.1'
         mirror: <the custom mirror goes here>
 
-``spin_frontend.node`` schema reference
-#######################################
+``csspin_frontend.node`` schema reference
+#########################################
 
 .. include:: node_schemaref.rst

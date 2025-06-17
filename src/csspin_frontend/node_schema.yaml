@@ -1,6 +1,6 @@
 # -*- mode: yaml; coding: utf-8 -*-
 #
-# Schema of the node plugin for cs.spin
+# Schema of the node plugin for csspin
 
 node:
     type: object
