@@ -35,8 +35,8 @@ defaults = config(
     browser="chrome",
     requires=config(
         spin=[
-            "spin_ce.ce_services",  # FIXME: use csspin-ce
-            "spin_ce.mkinstance",  # FIXME: use csspin-ce
+            "csspin_ce.ce_services",
+            "csspin_ce.mkinstance",
             "csspin_frontend.node",
             "csspin_python.python",
         ],
@@ -52,7 +52,7 @@ def _run_cypress(  # pylint: disable=keyword-arg-before-vararg
     *args,
 ):
     from ce_services import RequireAllServices
-    from spin_ce.ce_services import extract_service_config
+    from csspin_ce.ce_services import extract_service_config
 
     subcommand = "run" if run else "open"
     inst = os.path.abspath(instance or cfg.mkinstance.base.instance_location)

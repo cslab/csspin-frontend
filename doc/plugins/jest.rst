@@ -41,7 +41,7 @@ must at least contain the following configuration.
     :caption: Minimal configuration of ``spinfile.yaml`` to use ``csspin_frontend.jsconfig``
 
     plugin_packages:
-        - csspin-java     # required by csspin_ce
+        - csspin-java
         - csspin-ce
         - csspin-frontend
         - csspin-python

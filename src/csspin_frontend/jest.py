@@ -43,7 +43,7 @@ defaults = config(
         spin=[
             "csspin_python.python",
             "csspin_frontend.node",
-            "spin_ce.mkinstance",  # FIXME: use csspin-ce
+            "csspin_ce.mkinstance",
         ],
         python=["cs.web"],
     ),
