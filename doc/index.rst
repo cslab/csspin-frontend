@@ -20,9 +20,9 @@ csspin-frontend documentation
 The ``csspin-frontend`` plugin-package for `csspin`_ serves to provide the
 necessary plugins and tools for the frontend development.
 
-.. The sources can be found at https://code.contact.de/qs/spin/csspin_frontend, while
-.. the released versions are available at
-.. https://packages.contact.de/tools/misc/spin-frontend.
+.. The sources can be found at https://code.contact.de/qs/spin/spin_frontend,
+.. while the released versions are available at
+.. https://pypi.org/project/csspin-frontend.
 
 ``csspin-frontend`` requires at least Python 3.9.
 

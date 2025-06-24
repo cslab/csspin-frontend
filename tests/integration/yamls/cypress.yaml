@@ -4,7 +4,7 @@ spin:
     index_url: https://packages.contact.de/tools/stable
 plugin_packages:
     - csspin-python
-    - spin-ce
+    - csspin-ce
     - csspin-java
     - ../../..
 plugins:

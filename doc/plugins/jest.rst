@@ -29,7 +29,7 @@ The Jest plugin does not install Jest from npm, but uses the webmake of an
 existing instance.
 
 The ``jest`` task is part of the "test" workflow and can be leveraged by
-importing making use of `spin_conpod.stdworkflows`_.
+importing making use of `csspin_workflows.stdworkflows`_.
 
 How to setup the ``csspin_frontend.jest`` plugin?
 #################################################
@@ -83,16 +83,16 @@ How to run jest tests as part of the "test" workflow?
 
 The ``jest`` task is part of the "test" workflow and can be executed by running
 the following command, assuming that the CE instance is already created and
-`spin_conpod.stdworkflows`_ is configured as follows:
+`csspin_workflows.stdworkflows`_ is configured as follows:
 
 .. code-block:: yaml
-   :caption: Adding the ``spin_conpod`` and ``stdworkflows`` plugin-packages to the ``spinfile.yaml``
+   :caption: Adding the ``csspin-workflows`` plugin-package to the ``spinfile.yaml``
 
     plugin_packages:
-        - spin-conpod # FIXME: this must be csspin_workflows
+        - csspin-workflows
         ...
     plugins:
-        - spin_conpod.stdworkflows
+        - csspin-workflows.stdworkflows
         ...
 
 The ``test`` workflow can be executed by running the following command after
