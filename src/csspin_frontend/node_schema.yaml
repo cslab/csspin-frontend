@@ -6,15 +6,17 @@ node:
     type: object
     help: Configuration of the Node plugin.
     properties:
+        install_dir:
+            type: path
+            help: |
+                Directory where downloaded and NodeJS installations are stored
+                and being used from
         version:
             type: str
-            help: NodeJS version
+            help: The NodeJS version
         use:
             type: path
             help: Alternative path to a local NodeJS executable
         mirror:
             type: str
             help: Proxy to get NodeJS sources from
-        ignore_ssl_certs:
-            type: bool
-            help: If enabled, ignoring SSL certificate validation checks.

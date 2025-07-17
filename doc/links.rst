@@ -21,4 +21,4 @@
 .. _jsconfig.json: https://code.visualstudio.com/docs/languages/jsconfig
 .. _Node.js: https://nodejs.org/
 .. _npm: https://www.npmjs.com/
-.. _spin_conpod.stdworkflows: http://qs.pages.contact.de/spin/csspin_workflows/plugins/stdworkflows.html
+.. _csspin_workflows.stdworkflows: http://qs.pages.contact.de/spin/csspin_workflows/plugins/stdworkflows.html
