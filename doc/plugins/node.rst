@@ -85,6 +85,10 @@ done by setting the ``node.mirror`` property to the URL of the mirror.
         version: '18.17.1'
         mirror: <the custom mirror goes here>
 
+.. note::
+
+    The URL that ``node.mirror`` points to must point to the same site as https://nodejs.org/dist/.
+
 ``csspin_frontend.node`` schema reference
 #########################################
 

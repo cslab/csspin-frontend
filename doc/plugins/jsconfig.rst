@@ -58,6 +58,6 @@ After the project is provisioned, the ``jsconfig`` task can be run to create a
    spin jsconfig
 
 ``csspin_frontend.jsconfig`` schema reference
-###########################################
+#############################################
 
 .. include:: jsconfig_schemaref.rst
