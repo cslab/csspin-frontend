@@ -13,7 +13,9 @@ node:
                 and being used from
         version:
             type: str
-            help: The NodeJS version
+            help: |
+                The NodeJS version. Can be "lts" or any of "major",
+                "major.minor" or "major.minor.sl" with or without a leading "v"
         use:
             type: path
             help: Alternative path to a local NodeJS executable
