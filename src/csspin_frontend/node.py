@@ -110,9 +110,6 @@ def configure(cfg: ConfigTree) -> None:
     if cfg.node.mirror and not cfg.node.mirror.endswith("/"):
         cfg.node.mirror = f"{cfg.node.mirror}/"
 
-    if cfg.node.version:
-        cfg.node.version = _determine_exact_node_version(cfg)
-
 
 def provision(cfg: ConfigTree) -> None:
     """Provision the node plugin"""
@@ -255,7 +252,8 @@ def _download_node(cfg: ConfigTree) -> Path:
     Returns the path to the node executable.
     """
     node_install_base = interpolate1(Path("{spin.data}/nodejs/"))
-    node_dir = node_install_base / cfg.node.version
+    exact_node_version = _determine_exact_node_version(cfg)
+    node_dir = node_install_base / exact_node_version
     if sys.platform == "win32":
         node = node_dir / "node.exe"
     else:
@@ -265,12 +263,12 @@ def _download_node(cfg: ConfigTree) -> Path:
 
     if sys.platform == "win32":
         archive_ext = ".zip"
-        archive_base_name = f"node-{cfg.node.version}-win-x64"
+        archive_base_name = f"node-{exact_node_version}-win-x64"
     else:
         archive_ext = ".tar.xz"
-        archive_base_name = f"node-{cfg.node.version}-linux-x64"
+        archive_base_name = f"node-{exact_node_version}-linux-x64"
     archive = f"{archive_base_name}{archive_ext}"
-    url = urljoin(cfg.node.mirror, f"{cfg.node.version}/{archive}")
+    url = urljoin(cfg.node.mirror, f"{exact_node_version}/{archive}")
 
     with TemporaryDirectory() as tmp_dir:
         archive_path = Path(tmp_dir) / archive
