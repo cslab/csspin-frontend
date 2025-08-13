@@ -18,7 +18,8 @@ jsconfig:
             type: list
             help: |
                 Relative paths to directories to search JS projects to be mapped
-                to JS modules in jsconfig.json:compilerOptions.paths
+                to JS modules in jsconfig.json:compilerOptions.paths. Contains python.site_packages
+                per default.
         base_url:
             type: str
             help: The path to the current JS project

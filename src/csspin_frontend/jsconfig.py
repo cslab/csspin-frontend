@@ -40,7 +40,7 @@ defaults = config(
         "**/build",
         "**/node_modules",
     ],
-    search_dirs=["{python.site_packages}"],
+    search_dirs=[],
     base_url="{spin.project_root}",
     requires=config(spin=["csspin_python.python"]),
 )
@@ -66,7 +66,7 @@ def jsconfig(
     ),
 ):
     """Generate a jsconfig.json file"""
-    if not (
+    if (
         not exists("jsconfig.json")
         or skip_confirmation
         or confirm("You are about to override the jsconfig.json. Continue?")
@@ -81,6 +81,8 @@ def generate_jsconfig(cfg):
     exclude_patterns = [
         re.compile(fnmatch.translate(pattern)) for pattern in cfg.jsconfig.excludes
     ]
+
+    cfg.jsconfig.search_dirs.extend([cfg.python.site_packages])
 
     for dir_to_search in cfg.jsconfig.search_dirs:
         info(f"Searching for package.json files in {dir_to_search}")
