@@ -30,9 +30,9 @@ import re
 from path import Path
 
 try:
-    from csspin import config, confirm, echo, exists, info, option, rmtree, task, warn
+    from csspin import config, confirm, exists, info, option, rmtree, task, warn
 except ImportError:
-    from spin import config, confirm, echo, exists, info, option, rmtree, task, warn
+    from spin import config, confirm, exists, info, option, rmtree, task, warn
 
 defaults = config(
     includes=["cs/**/*"],
@@ -134,7 +134,7 @@ def generate_jsconfig(cfg):
     ) as jsconfig_file:
         json.dump(jsconfig_json, jsconfig_file, indent=4, sort_keys=True)
 
-    echo(
+    info(
         f"jsconfig.json generated successfully: {target_jsconfig_path}!",
         "Some IDE's may require a restart to apply the config.",
     )
