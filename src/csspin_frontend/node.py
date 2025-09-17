@@ -57,6 +57,7 @@ try:
         mv,
         setenv,
         sh,
+        warn,
     )
     from csspin.tree import ConfigTree
 except ImportError:
@@ -102,10 +103,15 @@ def configure(cfg: ConfigTree) -> None:
             " node.version"
         )
 
-    if cfg.node.use and not exists(cfg.node.use):
-        if not (interpreter := shutil.which(cfg.node.use)):
-            die(f"Could not finde Node interpreter '{cfg.node.use}'")
-        cfg.node.use = Path(interpreter)
+    if cfg.node.use:
+        if cfg.node.version:
+            warn(
+                "node.version will be ignored, using '{node.use}' from node.use instead."
+            )
+        if not exists(cfg.node.use):
+            if not (interpreter := shutil.which(cfg.node.use)):
+                die(f"Could not finde Node interpreter '{cfg.node.use}'")
+            cfg.node.use = Path(interpreter)
 
     if cfg.node.mirror and not cfg.node.mirror.endswith("/"):
         cfg.node.mirror = f"{cfg.node.mirror}/"
