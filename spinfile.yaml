@@ -3,7 +3,6 @@
 
 spin:
     project_name: csspin_frontend
-    index_url: https://packages.contact.de/tools/stable
 
 plugin_packages:
     - csspin-docs
