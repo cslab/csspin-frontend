@@ -15,10 +15,10 @@
    limitations under the License.
 
 .. _csspin: https://pypi.org/project/csspin/
-.. _create new instance: http://qs.pages.contact.de/spin/spin_ce/plugins/mkinstance.html#how-to-create-a-new-contact-elements-instance
+.. _create new instance: https://csspin-ce.readthedocs.io/en/stable/plugins/mkinstance.html#how-to-create-a-new-contact-elements-instance
 .. _cypress: https://www.cypress.io/
 .. _Jest: https://jestjs.io/
 .. _jsconfig.json: https://code.visualstudio.com/docs/languages/jsconfig
 .. _Node.js: https://nodejs.org/
 .. _npm: https://www.npmjs.com/
-.. _csspin_workflows.stdworkflows: http://qs.pages.contact.de/spin/csspin_workflows/plugins/stdworkflows.html
+.. _csspin_workflows.stdworkflows: https://csspin-workflows.readthedocs.io/en/stable/plugins/stdworkflows.html
