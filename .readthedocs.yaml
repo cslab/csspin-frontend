@@ -13,12 +13,10 @@ build:
         # Create a dummy redis-server to satisfy csspin-ce dependency
         - mkdir -p bin
         - touch bin/redis-server
-        - ls bin
         - chmod +x ./bin/redis-server
-        - export PATH="$PWD/bin:$PATH"
         - python -m pip install --upgrade virtualenv
         - python -m pip install csspin
-        - spin -C . -f doc/spinfile.yaml provision
+        - PATH="${PWD}/bin:$PATH" spin -C . -f doc/spinfile.yaml provision
         - spin -C . -f doc/spinfile.yaml docs html
         - mkdir -p $READTHEDOCS_OUTPUT/html
         - mv doc/_build/html/* $READTHEDOCS_OUTPUT/html
