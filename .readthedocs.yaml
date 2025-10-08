@@ -12,9 +12,8 @@ build:
         # virtualenv)
         # Create a dummy redis-server to satisfy csspin-ce dependency
         - mkdir -p bin
-        - echo '#!/bin/sh\nexit 0' > bin/redis-server
+        - touch bin/redis-server
         - ls bin
-        - cat bin/redis-server
         - chmod +x ./bin/redis-server
         - export PATH="$PWD/bin:$PATH"
         - python -m pip install --upgrade virtualenv
