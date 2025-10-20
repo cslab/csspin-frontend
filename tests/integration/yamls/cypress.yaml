@@ -10,6 +10,8 @@ plugin_packages:
 plugins:
     - csspin_java.java
     - csspin_frontend.cypress
+contact_elements:
+    umbrella: '16.0'
 node:
     version: 18.17.1
     mirror: https://nodejs-proxy.ops.contact.de/dist/

@@ -18,6 +18,9 @@ plugins:
           - node
     - csspin_java.java
 
+contact_elements:
+    umbrella: '16.0'
+
 java:
     version: '21'
 
