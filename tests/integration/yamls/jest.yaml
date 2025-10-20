@@ -10,6 +10,8 @@ plugin_packages:
 plugins:
     - csspin_java.java
     - csspin_frontend.jest
+contact_elements:
+    umbrella: '16.0'
 java:
     version: '21'
 jest:
