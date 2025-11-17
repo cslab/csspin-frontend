@@ -35,3 +35,4 @@ necessary plugins and tools for the frontend development.
    plugins/jest.rst
    plugins/jsconfig.rst
    plugins/node.rst
+   relnotes.rst
