@@ -68,3 +68,5 @@ Chores
 ------
 
 - Add release notes to the documentation structure (`#45 <https://code.contact.de/qs/spin/spin_frontend/-/issues/45>`_)
+- node: Add --silent flag to npm installs if verbosity is normal (`#46
+  <https://code.contact.de/qs/spin/spin_frontend/-/issues/46>`_)
