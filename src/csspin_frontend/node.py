@@ -45,6 +45,7 @@ if typing.TYPE_CHECKING:
 try:
     from csspin import (
         Path,
+        Verbosity,
         config,
         copy,
         die,
@@ -63,6 +64,7 @@ try:
 except ImportError:
     from spin import (
         Path,
+        Verbosity,
         config,
         copy,
         die,
@@ -154,16 +156,16 @@ def provision(cfg: ConfigTree) -> None:
         NPM_CONFIG_PREFIX=npm_config_prefix,
         npm_config_prefix=npm_config_prefix,
     )
-
+    silent = cfg.verbosity < Verbosity.INFO
     if not npm.exists() or node_changed:
         npm_req = f"npm@{_get_npm_version(cfg, node)}"
-        _install_requirements([npm_req], npm=outside_npm, memo=False)
+        _install_requirements([npm_req], npm=outside_npm, memo=False, silent=silent)
 
     requirements = []
     for plugin in cfg.spin.topo_plugins:
         plugin_module = cfg.loaded[plugin]
         requirements += get_requires(plugin_module.defaults, "npm")
-    _install_requirements(requirements)
+    _install_requirements(requirements, silent=silent)
 
 
 @cache
@@ -233,21 +235,27 @@ def _get_npm_version(  # pylint: disable=inconsistent-return-statements
         die(f"Could not determine the npm version for {node}")
 
 
-def _install_requirements(reqs: list[str], npm: Path | None = None, memo=True) -> None:
+def _install_requirements(
+    reqs: list[str],
+    npm: Path | None = None,
+    memo: bool = True,
+    silent: bool = False,
+) -> None:
     """
     Install npm requirements into the environment and memoize them. If
     installing npm memoizing should not be done, as otherwise the npm version
     may not fit for the node version.
     """
-    _npm = npm or "npm"
+
+    install_cmd = [npm or "npm", "install", "--silent" if silent else None, "-g"]
     if not memo:
-        sh(_npm, "install", "-g", *reqs)
+        sh(*install_cmd, *reqs)
     else:
         with memoizer("{python.venv}/node_modules.memo") as m:
             to_install = [req for req in reqs if not m.check(req)]
             if not to_install:
                 return
-            sh(_npm, "install", "-g", *to_install)
+            sh(*install_cmd, *to_install)
             for req in reqs:
                 m.add(req)
 
