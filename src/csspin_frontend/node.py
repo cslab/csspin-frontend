@@ -153,7 +153,6 @@ def provision(cfg: ConfigTree) -> None:
 
     setenv(
         NODE_PATH=node_path,
-        NPM_CONFIG_PREFIX=npm_config_prefix,
         npm_config_prefix=npm_config_prefix,
     )
     silent = cfg.verbosity < Verbosity.INFO
