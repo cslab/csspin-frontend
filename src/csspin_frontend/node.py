@@ -27,6 +27,7 @@ plugin also installs npm and other required npm packages.
 from __future__ import annotations
 
 import json
+import platform
 import shutil
 import sys
 import tarfile
@@ -277,6 +278,10 @@ def _download_node(cfg: ConfigTree) -> Path:
     if sys.platform == "win32":
         archive_ext = ".zip"
         archive_base_name = f"node-{exact_node_version}-win-x64"
+    elif sys.platform == "darwin":
+        archive_ext = ".tar.xz"
+        machine_architecture = "arm64" if platform.machine() == "arm64" else "x64"
+        archive_base_name = f"node-{exact_node_version}-darwin-{machine_architecture}"
     else:
         archive_ext = ".tar.xz"
         archive_base_name = f"node-{exact_node_version}-linux-x64"
