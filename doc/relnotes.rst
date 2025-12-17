@@ -59,10 +59,15 @@
 Release Notes
 =============
 
-Upcoming Release
-================
+v2.3.0
+======
 
-.. Month Day, Year
+December 17, 2025
+
+Enhancements
+------------
+
+- Add support for provisioning nodejs on macOS (`#48 <https://code.contact.de/qs/spin/spin_frontend/-/issues/48>`_)
 
 Chores
 ------
