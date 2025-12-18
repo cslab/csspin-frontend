@@ -59,6 +59,16 @@
 Release Notes
 =============
 
+Upcoming Release
+================
+
+.. Month Day, Year
+
+Bug Fixes
+---------
+
+- node: npm install command lists sass and yarn twice (`#50 <https://code.contact.de/qs/spin/spin_frontend/-/issues/50>`:)
+
 v2.3.0
 ======
 
