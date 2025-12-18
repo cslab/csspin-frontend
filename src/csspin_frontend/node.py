@@ -87,13 +87,7 @@ defaults = config(
     version=None,
     use=None,
     mirror="https://nodejs.org/dist/",
-    requires=config(
-        spin=["csspin_python.python"],
-        npm=[
-            "sass",
-            "yarn",
-        ],
-    ),
+    requires=config(spin=["csspin_python.python"]),
 )
 
 
