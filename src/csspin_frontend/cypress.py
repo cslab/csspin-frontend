@@ -22,6 +22,7 @@ Allows running cypress tests in a spin environment. Therefore this plugin will
 start the services necessary for the testing.
 """
 
+import json
 import os
 
 try:
@@ -51,8 +52,11 @@ def _run_cypress(  # pylint: disable=keyword-arg-before-vararg
     run=True,
     *args,
 ):
-    from ce_services import RequireAllServices
+    from importlib.util import find_spec
+
     from csspin_ce.ce_services import extract_service_config
+
+    run_cypress = find_spec("csspin_frontend._run_cypress")
 
     subcommand = "run" if run else "open"
     inst = os.path.abspath(instance or cfg.mkinstance.base.instance_location)
@@ -61,31 +65,19 @@ def _run_cypress(  # pylint: disable=keyword-arg-before-vararg
     setenv(CADDOK_BASE=inst)
     setenv(CYPRESS_adminpwd="{mkinstance.base.instance_admpwd}")
 
-    with RequireAllServices(cfg_overwrite=extract_service_config(cfg)):
-        if subcommand == "run":
-            sh(
-                "npx",
-                "cypress",
-                subcommand,
-                "--project",
-                "{spin.project_root}",
-                "--config",
-                f"baseUrl={cfg.cypress.base_url}",
-                "--browser",
-                f"{cfg.cypress.browser}",
-                *args,
-            )
-        else:
-            sh(
-                "npx",
-                "cypress",
-                subcommand,
-                "--project",
-                f"{cfg.spin.project_root}",
-                "--config",
-                f"baseUrl={cfg.cypress.base_url}",
-                *args,
-            )
+    cfg_file = cfg.spin.spin_dir / "cypress_ce_services_cfg.json"
+    with cfg_file.open(mode="w", encoding="utf-8") as fd:
+        json.dump(extract_service_config(cfg), fd)
+    sh(
+        cfg.python.python,
+        run_cypress.origin,
+        subcommand,
+        f"--cfg={cfg_file}",
+        f"--project_root={cfg.spin.project_root}",
+        f"--base_url={cfg.cypress.base_url}",
+        f"--browser={cfg.cypress.browser}",
+        *args,
+    )
 
 
 @task(when="cept")
