@@ -25,10 +25,7 @@ start the services necessary for the testing.
 import json
 import os
 
-try:
-    from csspin import config, die, option, setenv, sh, task
-except ImportError:
-    from spin import config, die, option, setenv, sh, task
+from csspin import config, die, option, setenv, sh, task
 
 defaults = config(
     version="13.6.3",

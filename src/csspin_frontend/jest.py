@@ -19,12 +19,8 @@
 
 import os
 
+from csspin import Verbosity, config, die, interpolate1, option, setenv, sh, task
 from path import Path
-
-try:
-    from csspin import Verbosity, config, die, interpolate1, option, setenv, sh, task
-except ImportError:
-    from spin import Verbosity, config, die, interpolate1, option, setenv, sh, task
 
 defaults = config(
     coverage=False,
