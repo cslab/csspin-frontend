@@ -59,15 +59,23 @@
 Release Notes
 =============
 
-Upcoming Release
-================
+v2.3.1
+======
 
-.. Month Day, Year
+January 12, 2026
 
 Bug Fixes
 ---------
 
 - node: npm install command lists sass and yarn twice (`#50 <https://code.contact.de/qs/spin/spin_frontend/-/issues/50>`:)
+- cypress: tests are failing with CE 16.2 / python 3.14 (`#53 <https://code.contact.de/qs/spin/spin_frontend/-/issues/53>`_)
+
+Chores
+------
+
+- Add repository URL information to Wheel metadata (`!51 <https://code.contact.de/qs/spin/spin_frontend/-/issues/51>`_)
+- Update release process documentation and contribution guideline (`!52 <https://code.contact.de/qs/spin/spin_frontend/-/issues/52>`_)
+- Removal of tomli constraint in pyroject.toml (`!55 <https://code.contact.de/qs/spin/spin_frontend/-/issues/55>`_)
 
 v2.3.0
 ======
