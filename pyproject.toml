@@ -21,8 +21,7 @@ classifiers = [
 ]
 dependencies = [
   "csspin-ce",
-  "csspin-python",
-  "tomli;python_version<'3.11'"  # Needed, so that cypress can use ce_services.RequireAllServices
+  "csspin-python"
 ]
 description = "Plugin-package for csspin providing frontend related plugins"
 dynamic = ["version", "readme"]
