@@ -59,6 +59,16 @@
 Release Notes
 =============
 
+v2.3.2
+======
+
+January 13, 2026
+
+Bug Fixes
+---------
+
+- cypress: Follow Up for Resolve "cypress tests are failing with CE 16.2 / python 3.14" (`!67 <https://code.contact.de/qs/spin/spin_frontend/-/merge_requests/67>`_)
+
 v2.3.1
 ======
 
@@ -73,9 +83,9 @@ Bug Fixes
 Chores
 ------
 
-- Add repository URL information to Wheel metadata (`!51 <https://code.contact.de/qs/spin/spin_frontend/-/issues/51>`_)
-- Update release process documentation and contribution guideline (`!52 <https://code.contact.de/qs/spin/spin_frontend/-/issues/52>`_)
-- Removal of tomli constraint in pyroject.toml (`!55 <https://code.contact.de/qs/spin/spin_frontend/-/issues/55>`_)
+- Add repository URL information to Wheel metadata (`#51 <https://code.contact.de/qs/spin/spin_frontend/-/issues/51>`_)
+- Update release process documentation and contribution guideline (`#52 <https://code.contact.de/qs/spin/spin_frontend/-/issues/52>`_)
+- Removal of tomli constraint in pyroject.toml (`#55 <https://code.contact.de/qs/spin/spin_frontend/-/issues/55>`_)
 
 v2.3.0
 ======

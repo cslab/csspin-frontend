@@ -27,7 +27,8 @@ ce_services will not work. It should not be run directly.
 
 import argparse
 import json
-from subprocess import check_call  # nosec: blacklist
+import shutil
+from subprocess import check_call, list2cmdline  # nosec: blacklist
 
 from ce_services import RequireAllServices
 
@@ -57,7 +58,7 @@ def main():
     with open(cfg, "r", encoding="utf-8") as fd:
         cfg = json.load(fd)
     cmd = [
-        "npx",
+        shutil.which("npx"),
         "cypress",
         subcommand,
         "--project",
@@ -71,6 +72,7 @@ def main():
         subcommand.extend(*args)
 
     with RequireAllServices(cfg_overwrite=cfg):
+        print(f"Calling: {list2cmdline(cmd)}")
         check_call(cmd)  # nosec: subprocess_without_shell_equals_true
 
 
