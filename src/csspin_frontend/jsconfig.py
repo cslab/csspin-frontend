@@ -27,12 +27,8 @@ import json
 import os
 import re
 
+from csspin import config, confirm, exists, info, option, rmtree, task, warn
 from path import Path
-
-try:
-    from csspin import config, confirm, exists, info, option, rmtree, task, warn
-except ImportError:
-    from spin import config, confirm, exists, info, option, rmtree, task, warn
 
 defaults = config(
     includes=["cs/**/*"],
