@@ -44,7 +44,7 @@ within the `spinfile.yaml` configuration file of your project.
       - csspin_frontend.node
 
     python: # Required since csspin_frontend.node depends on csspin_python.python
-      version: 3.9.8
+      version: 3.10.19
 
     node:
       version: 18.17.1

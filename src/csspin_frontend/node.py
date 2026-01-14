@@ -43,44 +43,24 @@ from urllib.request import urlopen
 if typing.TYPE_CHECKING:
     from typing import Any
 
-try:
-    from csspin import (
-        Path,
-        Verbosity,
-        config,
-        copy,
-        die,
-        download,
-        exists,
-        get_requires,
-        interpolate1,
-        memoizer,
-        mkdir,
-        mv,
-        setenv,
-        sh,
-        warn,
-    )
-    from csspin.tree import ConfigTree
-except ImportError:
-    from spin import (
-        Path,
-        Verbosity,
-        config,
-        copy,
-        die,
-        download,
-        exists,
-        get_requires,
-        interpolate1,
-        memoizer,
-        mkdir,
-        mv,
-        setenv,
-        sh,
-    )
-    from spin.tree import ConfigTree
-
+from csspin import (
+    Path,
+    Verbosity,
+    config,
+    copy,
+    die,
+    download,
+    exists,
+    get_requires,
+    interpolate1,
+    memoizer,
+    mkdir,
+    mv,
+    setenv,
+    sh,
+    warn,
+)
+from csspin.tree import ConfigTree
 
 defaults = config(
     install_dir="{spin.data}/nodejs/",
