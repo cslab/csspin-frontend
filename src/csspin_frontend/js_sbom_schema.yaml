@@ -1,0 +1,7 @@
+# -*- mode: yaml; coding: utf-8 -*-
+#
+# Schema for the js_sbom plugin for csspin
+
+js_sbom:
+    type: object
+    help: Configuration of the js_sbom plugin for csspin

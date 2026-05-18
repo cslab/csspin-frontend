@@ -12,6 +12,8 @@ The following plugins are available:
   configurations.
 - `csspin_frontend.node`: Provides tasks for provisioning and managing Node.js
   and npm.
+- `csspin_frontend.js_sbom`: Provides tasks for building JavaScript SBOMs in
+  CycloneDX format.
 
 Prerequisites
 -------------

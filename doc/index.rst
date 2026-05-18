@@ -34,4 +34,5 @@ the released versions are available at https://pypi.org/project/csspin-frontend.
    plugins/jest.rst
    plugins/jsconfig.rst
    plugins/node.rst
+   plugins/js_sbom.rst
    relnotes.rst

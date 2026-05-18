@@ -1,0 +1,9 @@
+# spinfile used to test the js_sbom plugin
+spin:
+    index_url: https://packages.contact.de/tools/stable
+plugin_packages:
+    - ../../..
+plugins:
+    - csspin_frontend.js_sbom
+python:
+    version: '3.10.9'
