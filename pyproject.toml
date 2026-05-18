@@ -151,7 +151,7 @@ notes = ["FIXME", "XXX", "TODO", "TBC", "TBD"]
 score = "no"
 
 [tool.pytest.ini_options]
-markers = ["integration"]
+markers = ["integration", "acceptance"]
 
 [tool.setuptools.dynamic]
 readme = {file = "README.rst", content-type = "text/x-rst"}

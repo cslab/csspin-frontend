@@ -15,6 +15,7 @@ plugins:
           - jest
           - jsconfig
           - node
+          - js_sbom
     - csspin_java.java
 
 contact_elements:
@@ -27,7 +28,7 @@ python:
     version: '3.11.9'
     requirements:
         - sphinx-rtd-theme
-    index_url: https://packages.contact.de/apps/16.0-dev/+simple/
+    index_url: https://packages.contact.de/apps/16.0/+simple/
 
 node:
     version: v18.17.1
@@ -46,3 +47,4 @@ build_rules:
             - schemadoc jest --rst -o doc/plugins/jest_schemaref.rst
             - schemadoc jsconfig --rst -o doc/plugins/jsconfig_schemaref.rst
             - schemadoc node --rst -o doc/plugins/node_schemaref.rst
+            - schemadoc js_sbom --rst -o doc/plugins/js_sbom_schemaref.rst

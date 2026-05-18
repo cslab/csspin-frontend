@@ -83,6 +83,7 @@ TOOL_TESTCASES = (
         ),
         id="cypress.yaml:cypress",
     ),
+    # Ignoring js_sbom since it does not implement a provision function
 )
 
 
