@@ -15,14 +15,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
 """Module implementing acceptance tests for the js_sbom plugin."""
 
 import shlex
 import subprocess
 import sys
+import sysconfig
 
 import pytest
 from path import Path
+
+_PLATFORM_TAG = sysconfig.get_platform().replace("-", "_")
 
 
 def execute_spin(yaml, env, path, cmd=""):
@@ -59,8 +63,8 @@ def test_js_sbom(tmp_path):
 
     execute_spin(yaml=yaml, env=tmp_path, path=project_root, cmd="provision")
     execute_spin(yaml=yaml, env=tmp_path, path=project_root, cmd="js-sbom")
-    assert (project_root / "myapp.js_sbom.cdx.json").exists()
+    assert (project_root / f"myapp.{_PLATFORM_TAG}.js_sbom.cdx.json").exists()
 
     execute_spin(yaml=yaml, env=tmp_path, path=project_root, cmd="cleanup")
-    assert not (project_root / "myapp.js_sbom.cdx.json").exists()
+    assert not (project_root / f"myapp.{_PLATFORM_TAG}.js_sbom.cdx.json").exists()
     assert not (project_root / "build").exists()

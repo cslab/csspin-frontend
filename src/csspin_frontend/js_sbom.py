@@ -17,6 +17,7 @@
 
 """Module implementing the js_sbom plugin for csspin-frontend"""
 
+import sysconfig
 from pathlib import Path as PathlibPath
 
 from csspin import config, copy, exists, info, rmtree, setenv, sh, task
@@ -49,7 +50,8 @@ def _collect_js_sboms(project_root: Path) -> None:
     for sbom_path in build_lib.glob("**/bom/bom.json"):
         parts = sbom_path.relative_to(build_lib).parts
         name_parts = [p for p in parts[:-3] if p != "js"]
-        dest_name = "-".join(name_parts) + ".js_sbom.cdx.json"
+        platform_tag = sysconfig.get_platform().replace("-", "_")
+        dest_name = "-".join(name_parts) + f".{platform_tag}.js_sbom.cdx.json"
 
         copy(sbom_path, project_root / dest_name)
         info(f"Collected SBOM: {dest_name}")
