@@ -18,10 +18,13 @@
 
 """Unit tests for the js_sbom plugin"""
 
+import sysconfig
 from pathlib import Path
 from unittest import mock
 
 import pytest
+
+_PLATFORM_TAG = sysconfig.get_platform().replace("-", "_")
 
 # The @task decorator calls csspin.get_tree() at module load time; patch it so
 # importing js_sbom doesn't require a live spin config tree.
@@ -44,18 +47,24 @@ def _create_bom(root: Path, *parts: str) -> Path:
     "sbom_subpath, expected_dest_name",
     [
         # Single namespace, js dir stripped
-        (("component", "js", "build", "bom"), "component.js_sbom.cdx.json"),
+        (
+            ("component", "js", "build", "bom"),
+            f"component.{_PLATFORM_TAG}.js_sbom.cdx.json",
+        ),
         # Two-level namespace, js dir stripped
-        (("cs", "component", "js", "build", "bom"), "cs-component.js_sbom.cdx.json"),
+        (
+            ("cs", "component", "js", "build", "bom"),
+            f"cs-component.{_PLATFORM_TAG}.js_sbom.cdx.json",
+        ),
         # Three-level namespace, js dir stripped
         (
             ("cs", "component", "something", "js", "build", "bom"),
-            "cs-component-something.js_sbom.cdx.json",
+            f"cs-component-something.{_PLATFORM_TAG}.js_sbom.cdx.json",
         ),
         # No js dir in path — all parts kept
-        (("component", "build", "bom"), "component.js_sbom.cdx.json"),
+        (("component", "build", "bom"), f"component.{_PLATFORM_TAG}.js_sbom.cdx.json"),
         # Multiple non-js parts before build/bom, no js dir
-        (("foo", "bar", "build", "bom"), "foo-bar.js_sbom.cdx.json"),
+        (("foo", "bar", "build", "bom"), f"foo-bar.{_PLATFORM_TAG}.js_sbom.cdx.json"),
     ],
 )
 @mock.patch("csspin_frontend.js_sbom.info")
@@ -100,7 +109,10 @@ def test_collect_js_sboms_multiple_apps(_mock_copy, _mock_info, tmp_path):
 
     assert _mock_copy.call_count == 2
     dest_names = {call.args[1].name for call in _mock_copy.call_args_list}
-    assert dest_names == {"app1.js_sbom.cdx.json", "app2.js_sbom.cdx.json"}
+    assert dest_names == {
+        f"app1.{_PLATFORM_TAG}.js_sbom.cdx.json",
+        f"app2.{_PLATFORM_TAG}.js_sbom.cdx.json",
+    }
 
 
 @mock.patch("csspin_frontend.js_sbom.info")
