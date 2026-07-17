@@ -18,6 +18,8 @@
 """Module implementing the jest plugin for csspin."""
 
 import os
+import subprocess  # nosec: blacklist
+from contextlib import nullcontext
 
 from csspin import Verbosity, config, die, interpolate1, option, setenv, sh, task
 from path import Path
@@ -94,12 +96,42 @@ def jest(  # pylint: disable=too-many-arguments,too-many-positional-arguments
     if debug:
         opts.append("--debug")
     if with_test_report and cfg.jest.report_opts:
+        try:
+            environment = cfg.spin.subprocess_environment
+        except AttributeError:
+            environment = nullcontext
+
+        with environment():
+            try:
+                webmake_resources = subprocess.check_output(  # nosec
+                    [
+                        "python",
+                        "-c",
+                        "from importlib import resources;"
+                        "print(str(resources.files('cs.webmake').joinpath('resources')))",
+                    ],
+                    stderr=subprocess.DEVNULL,
+                    text=True,
+                ).strip()
+            except (FileNotFoundError, subprocess.CalledProcessError):
+                webmake_resources = None
+
+        if webmake_resources:
+            node_modules_dir = Path(webmake_resources) / "node_modules"
+        else:
+            node_modules_dir = instance / "node_modules"
+
+        setenv(
+            JEST_SONAR_OUTPUT_DIR=cfg.spin.project_root,
+            JEST_SONAR_OUTPUT_NAME="jest-sonar.xml",
+        )
+
         sh(
             "yarn",
             "add",
             "@casualbot/jest-sonar-reporter",
-            env={"NODE_PATH": instance / "node_modules"},
-            cwd=instance,
+            env={"NODE_PATH": node_modules_dir},
+            cwd=node_modules_dir.parent,
         )
         opts.extend(cfg.jest.report_opts)
 
