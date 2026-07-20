@@ -59,6 +59,35 @@
 Release Notes
 =============
 
+v3.0.0
+======
+
+July 20, 2026
+
+Breaking Changes
+----------------
+
+- Drop Python 3.9 support (`#54
+  <https://code.contact.de/qs/spin/spin_frontend/-/work_items/54>`_)
+- Drop cs.spin support (`#40
+  <https://code.contact.de/qs/spin/spin_frontend/-/work_items/40>`_)
+
+Enhancements
+------------
+
+- Add ``js_sbom`` plugin for managing JavaScript SBOMs (`!69
+  <https://code.contact.de/qs/spin/spin_frontend/-/merge_requests/69>`_)
+
+Chores
+------
+
+- Document CONTACT Community as release notification channel (`#56
+  <https://code.contact.de/qs/spin/spin_frontend/-/work_items/56>`_)
+- Fix ``NODE_PATH`` resolution for ``cs.webmake`` (`!74
+  <https://code.contact.de/qs/spin/spin_frontend/-/merge_requests/74>`_)
+- Add platform identifier to SBOM file name (`!72
+  <https://code.contact.de/qs/spin/spin_frontend/-/merge_requests/72>`_)
+
 v3.0.0-rc.1
 ===========
 
