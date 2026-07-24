@@ -59,6 +59,24 @@
 Release Notes
 =============
 
+v3.0.1
+======
+
+July 24, 2026
+
+Bug Fixes
+---------
+
+- ``spin_frontend`` used a hard coded ``python`` executable instead of the
+  spin config (`!77
+  <https://code.contact.de/qs/spin/spin_frontend/-/merge_requests/77>`_)
+
+Chores
+------
+
+- Add SonarQube analysis (`!76
+  <https://code.contact.de/qs/spin/spin_frontend/-/merge_requests/76>`_)
+
 v3.0.0
 ======
 
