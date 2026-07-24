@@ -105,7 +105,7 @@ def jest(  # pylint: disable=too-many-arguments,too-many-positional-arguments
             try:
                 webmake_resources = subprocess.check_output(  # nosec
                     [
-                        "python",
+                        cfg.python.python,
                         "-c",
                         "from importlib import resources;"
                         "print(str(resources.files('cs.webmake').joinpath('resources')))",
