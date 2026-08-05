@@ -52,7 +52,7 @@
     Chores
     ------
 
-    - Add release notes to the documentation structure (`#45 <https://code.contact.de/qs/spin/spin_frontend/-/issues/45>`_)
+    - Add release notes to the documentation structure (`#45 <https://code.contact.de/pod/components/csspin-frontend/-/issues/45>`_)
 
 
 =============
@@ -69,13 +69,13 @@ Bug Fixes
 
 - ``spin_frontend`` used a hard coded ``python`` executable instead of the
   spin config (`!77
-  <https://code.contact.de/qs/spin/spin_frontend/-/merge_requests/77>`_)
+  <https://code.contact.de/pod/components/csspin-frontend/-/merge_requests/77>`_)
 
 Chores
 ------
 
 - Add SonarQube analysis (`!76
-  <https://code.contact.de/qs/spin/spin_frontend/-/merge_requests/76>`_)
+  <https://code.contact.de/pod/components/csspin-frontend/-/merge_requests/76>`_)
 
 v3.0.0
 ======
@@ -86,25 +86,25 @@ Breaking Changes
 ----------------
 
 - Drop Python 3.9 support (`#54
-  <https://code.contact.de/qs/spin/spin_frontend/-/work_items/54>`_)
+  <https://code.contact.de/pod/components/csspin-frontend/-/work_items/54>`_)
 - Drop cs.spin support (`#40
-  <https://code.contact.de/qs/spin/spin_frontend/-/work_items/40>`_)
+  <https://code.contact.de/pod/components/csspin-frontend/-/work_items/40>`_)
 
 Enhancements
 ------------
 
 - Add ``js_sbom`` plugin for managing JavaScript SBOMs (`!69
-  <https://code.contact.de/qs/spin/spin_frontend/-/merge_requests/69>`_)
+  <https://code.contact.de/pod/components/csspin-frontend/-/merge_requests/69>`_)
 
 Chores
 ------
 
 - Document CONTACT Community as release notification channel (`#56
-  <https://code.contact.de/qs/spin/spin_frontend/-/work_items/56>`_)
+  <https://code.contact.de/pod/components/csspin-frontend/-/work_items/56>`_)
 - Fix ``NODE_PATH`` resolution for ``cs.webmake`` (`!74
-  <https://code.contact.de/qs/spin/spin_frontend/-/merge_requests/74>`_)
+  <https://code.contact.de/pod/components/csspin-frontend/-/merge_requests/74>`_)
 - Add platform identifier to SBOM file name (`!72
-  <https://code.contact.de/qs/spin/spin_frontend/-/merge_requests/72>`_)
+  <https://code.contact.de/pod/components/csspin-frontend/-/merge_requests/72>`_)
 
 v3.0.0-rc.1
 ===========
@@ -115,21 +115,21 @@ Breaking Changes
 ----------------
 
 - Drop Python 3.9 support (`#54
-  <https://code.contact.de/qs/spin/spin_frontend/-/work_items/54>`_)
+  <https://code.contact.de/pod/components/csspin-frontend/-/work_items/54>`_)
 - Drop cs.spin support (`#40
-  <https://code.contact.de/qs/spin/spin_frontend/-/work_items/40>`_)
+  <https://code.contact.de/pod/components/csspin-frontend/-/work_items/40>`_)
 
 Enhancements
 ------------
 
 - Add ``js_sbom`` plugin for managing JavaScript SBOMs (`!69
-  <https://code.contact.de/qs/spin/spin_frontend/-/merge_requests/69>`_)
+  <https://code.contact.de/pod/components/csspin-frontend/-/merge_requests/69>`_)
 
 Chores
 ------
 
 - Document CONTACT Community as release notification channel (`#56
-  <https://code.contact.de/qs/spin/spin_frontend/-/work_items/56>`_)
+  <https://code.contact.de/pod/components/csspin-frontend/-/work_items/56>`_)
 
 v2.3.2
 ======
@@ -139,7 +139,7 @@ January 13, 2026
 Bug Fixes
 ---------
 
-- cypress: Follow Up for Resolve "cypress tests are failing with CE 16.2 / python 3.14" (`!67 <https://code.contact.de/qs/spin/spin_frontend/-/merge_requests/67>`_)
+- cypress: Follow Up for Resolve "cypress tests are failing with CE 16.2 / python 3.14" (`!67 <https://code.contact.de/pod/components/csspin-frontend/-/merge_requests/67>`_)
 
 v2.3.1
 ======
@@ -149,15 +149,15 @@ January 12, 2026
 Bug Fixes
 ---------
 
-- node: npm install command lists sass and yarn twice (`#50 <https://code.contact.de/qs/spin/spin_frontend/-/issues/50>`:)
-- cypress: tests are failing with CE 16.2 / python 3.14 (`#53 <https://code.contact.de/qs/spin/spin_frontend/-/issues/53>`_)
+- node: npm install command lists sass and yarn twice (`#50 <https://code.contact.de/pod/components/csspin-frontend/-/issues/50>`:)
+- cypress: tests are failing with CE 16.2 / python 3.14 (`#53 <https://code.contact.de/pod/components/csspin-frontend/-/issues/53>`_)
 
 Chores
 ------
 
-- Add repository URL information to Wheel metadata (`#51 <https://code.contact.de/qs/spin/spin_frontend/-/issues/51>`_)
-- Update release process documentation and contribution guideline (`#52 <https://code.contact.de/qs/spin/spin_frontend/-/issues/52>`_)
-- Removal of tomli constraint in pyroject.toml (`#55 <https://code.contact.de/qs/spin/spin_frontend/-/issues/55>`_)
+- Add repository URL information to Wheel metadata (`#51 <https://code.contact.de/pod/components/csspin-frontend/-/issues/51>`_)
+- Update release process documentation and contribution guideline (`#52 <https://code.contact.de/pod/components/csspin-frontend/-/issues/52>`_)
+- Removal of tomli constraint in pyroject.toml (`#55 <https://code.contact.de/pod/components/csspin-frontend/-/issues/55>`_)
 
 v2.3.0
 ======
@@ -167,13 +167,13 @@ December 17, 2025
 Enhancements
 ------------
 
-- Add support for provisioning nodejs on macOS (`#48 <https://code.contact.de/qs/spin/spin_frontend/-/issues/48>`_)
+- Add support for provisioning nodejs on macOS (`#48 <https://code.contact.de/pod/components/csspin-frontend/-/issues/48>`_)
 
 Chores
 ------
 
 - node: Evaluate the need for setting two variants of NPM_CONFIG_PREFIX
-  (`!41 <https://code.contact.de/qs/spin/spin_frontend/-/merge_requests/41>`_)
-- Add release notes to the documentation structure (`#45 <https://code.contact.de/qs/spin/spin_frontend/-/issues/45>`_)
+  (`!41 <https://code.contact.de/pod/components/csspin-frontend/-/merge_requests/41>`_)
+- Add release notes to the documentation structure (`#45 <https://code.contact.de/pod/components/csspin-frontend/-/issues/45>`_)
 - node: Add --silent flag to npm installs if verbosity is normal (`#46
-  <https://code.contact.de/qs/spin/spin_frontend/-/issues/46>`_)
+  <https://code.contact.de/pod/components/csspin-frontend/-/issues/46>`_)
