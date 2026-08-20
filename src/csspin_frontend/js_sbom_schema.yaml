@@ -5,3 +5,9 @@
 js_sbom:
     type: object
     help: Configuration of the js_sbom plugin for csspin
+    properties:
+        repository_url:
+            type: str
+            help: |
+                URL of the package index used for the primary component's
+                Package URL. Defaults to 'python.index_url'.

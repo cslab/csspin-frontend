@@ -52,7 +52,7 @@ How to build JavaScript SBOMs using ``csspin_frontend.js_sbom``?
 The ``js-sbom`` task builds the JavaScript application (via ``setup.py
 build_js``) if no ``build/`` directory is present, then collects all
 ``bom/bom.json`` files from the build output and places them at the project
-root, named after their namespace:
+root, named after their namespace.
 
 .. code-block:: bash
    :caption: Building JavaScript SBOMs
