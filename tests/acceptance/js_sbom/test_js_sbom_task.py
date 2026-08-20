@@ -18,6 +18,7 @@
 
 """Module implementing acceptance tests for the js_sbom plugin."""
 
+import json
 import shlex
 import subprocess
 import sys
@@ -59,12 +60,33 @@ def test_js_sbom(tmp_path):
         project_root / "build" / "lib" / "myapp" / "js" / "build" / "bom" / "bom.json"
     )
     bom_file.parent.makedirs_p()
-    bom_file.write_text("{}", encoding="utf-8")
+    bom_file.write_text(
+        json.dumps(
+            {
+                "metadata": {
+                    "component": {
+                        "name": "myapp",
+                        "version": "1.0.0",
+                        "purl": "pkg:npm/myapp@1.0.0?",
+                        "bom-ref": "pkg:npm/myapp@1.0.0?",
+                    }
+                },
+                "dependencies": [{"ref": "pkg:npm/myapp@1.0.0?"}],
+            }
+        ),
+        encoding="utf-8",
+    )
 
     execute_spin(yaml=yaml, env=tmp_path, path=project_root, cmd="provision")
     execute_spin(yaml=yaml, env=tmp_path, path=project_root, cmd="js-sbom")
-    assert (project_root / f"myapp.{_PLATFORM_TAG}.js_sbom.cdx.json").exists()
+
+    sbom_file = project_root / f"myapp.{_PLATFORM_TAG}.js_sbom.cdx.json"
+    assert sbom_file.exists()
+
+    sbom_json = json.loads(sbom_file.read_text(encoding="utf-8"))
+    purl = sbom_json["metadata"]["component"]["purl"]
+    assert purl == "pkg:npm/myapp@1.0.0?repository_url=https:%2F%2Fpypi.org"
 
     execute_spin(yaml=yaml, env=tmp_path, path=project_root, cmd="cleanup")
-    assert not (project_root / f"myapp.{_PLATFORM_TAG}.js_sbom.cdx.json").exists()
+    assert not sbom_file.exists()
     assert not (project_root / "build").exists()
