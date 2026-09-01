@@ -43,10 +43,12 @@ with Path("links.rst").open(encoding="utf-8") as f:
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = [
     "_build",
-    "Thumbs.db",
     ".DS_Store",
-    "plugins/*_schemaref.rst",
+    ".spin",
+    ".venv",
     "links.rst",
+    "plugins/*_schemaref.rst",
+    "Thumbs.db",
 ]
 
 # -- Options for HTML output -------------------------------------------------
