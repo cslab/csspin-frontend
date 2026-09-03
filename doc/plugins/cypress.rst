@@ -66,6 +66,49 @@ instance`_).
 
    spin cypress
 
+How does ``csspin_frontend.cypress`` handle authentication?
+#############################################################
+
+In case you are using ``cs.platform`` >= 16.3, update your Cypress login
+command to authenticate using the ``CADDOK_OIDC_TOKEN`` token exposed via
+``Cypress.env('CADDOK_OIDC_TOKEN')``. See the migration guide below.
+
+Otherwise, i.e. for ``cs.platform`` <= 16.2, keep using
+``cy.visit(url, {auth: {username, password}})`` as before -- no changes are
+required.
+
+Migration guide: replacing Basic Auth in a login command
+**********************************************************
+
+If your ``login`` command looks like this:
+
+.. code-block:: javascript
+   :caption: Old, Basic-Auth-based login (``cs.platform`` <= 16.2)
+
+   Cypress.Commands.add('login', (username, password = '', url = '/') => {
+       cy.session(username, () => {
+           cy.visit(url, {auth: {username, password}});
+       });
+   });
+
+replace the ``cy.visit`` call with a ``cy.request`` to the session bootstrap
+endpoint, using the token from ``Cypress.env('CADDOK_OIDC_TOKEN')``, then
+visit the page separately:
+
+.. code-block:: javascript
+   :caption: New, OIDC-based login
+
+   Cypress.Commands.add('login', (username, url = '/') => {
+       cy.session(username, () => {
+           cy.request({
+               method: 'POST',
+               url: '/server/sessioninfo',
+               headers: Cypress.env('CADDOK_OIDC_TOKEN'),
+           });
+           cy.visit(url);
+       });
+   });
+
 How to run Cypress tests as part of the "cept" workflow?
 ########################################################
 
