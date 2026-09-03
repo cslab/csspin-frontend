@@ -27,6 +27,7 @@ ce_services will not work. It should not be run directly.
 
 import argparse
 import json
+import os
 import shutil
 from subprocess import check_call, list2cmdline  # nosec: blacklist
 
@@ -72,8 +73,21 @@ def main():
         subcommand.extend(*args)
 
     with RequireAllServices(cfg_overwrite=cfg):
+        try:
+            from cdb.testcase import oidc_auth_header, run_level_setup
+        except ImportError:
+            pass
+        else:
+            run_level_setup()
+            os.environ["CYPRESS_CADDOK_OIDC_TOKEN"] = json.dumps(
+                oidc_auth_header(url, "caddok")
+            )
+            print(
+                "CYPRESS_CADDOK_OIDC_TOKEN set, length="
+                f"{len(os.environ['CYPRESS_CADDOK_OIDC_TOKEN'])}"
+            )
         print(f"Calling: {list2cmdline(cmd)}")
-        check_call(cmd)  # nosec: subprocess_without_shell_equals_true
+        check_call(cmd, env=os.environ)  # nosec: subprocess_without_shell_equals_true
 
 
 if __name__ == "__main__":
