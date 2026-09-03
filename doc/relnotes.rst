@@ -59,6 +59,31 @@
 Release Notes
 =============
 
+v3.0.2
+======
+
+September 3, 2026
+
+Bug Fixes
+---------
+
+- Add OIDC authentication support for Cypress (`#61
+  <https://code.contact.de/pod/components/csspin-frontend/-/work_items/61>`_)
+- js_sbom: Missing parts in public docs (`#60
+  <https://code.contact.de/pod/components/csspin-frontend/-/work_items/60>`_)
+- Fix documentation build on readthedocs (`!83
+  <https://code.contact.de/pod/components/csspin-frontend/-/merge_requests/83>`_)
+
+Chores
+------
+
+- js_bom: PURLs are incorrect (`#58
+  <https://code.contact.de/pod/components/csspin-frontend/-/work_items/58>`_)
+- Add CEDM component portfolio update to release procedure (`!82
+  <https://code.contact.de/pod/components/csspin-frontend/-/merge_requests/82>`_)
+- Update CI includes and stale references after move to pod/components (`!79
+  <https://code.contact.de/pod/components/csspin-frontend/-/merge_requests/79>`_)
+
 v3.0.1
 ======
 
