@@ -7,7 +7,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,44 +18,102 @@
 """Module implementing the js_sbom plugin for csspin-frontend"""
 
 import json
+import os
 import sysconfig
+from collections.abc import Iterator
 from pathlib import Path as PathlibPath
 from urllib.parse import quote, urlencode
 
-from csspin import config, die, exists, info, rmtree, setenv, sh, task
+from csspin import config, die, exists, info, interpolate1, rmtree, setenv, sh, task
 from csspin.tree import ConfigTree
 from csspin_python.python_sbom import _repository_base_url
 from path import Path
 
 defaults = config(
     repository_url="{python.index_url}",
-    requires=config(spin=["csspin_python.python"]),
+    requires=config(
+        spin=[
+            "csspin_ce.contact_elements",
+            "csspin_python.python",
+        ],
+        python=[],
+    ),
 )
+
+
+# Umbrella releases whose JavaScript build still emits the bom.json files as a
+# by-product. From 2027.1 on, cs.webmake only writes them for "webmake sbom".
+_LEGACY_UMBRELLAS = ("16.0", "2026.1", "2026.2")
+
+
+def configure(cfg: ConfigTree) -> None:
+    """Configure the js_sbom plugin"""
+    if not _build_emits_boms(cfg):
+        cfg.js_sbom.requires.python.append("cs.webmake")
 
 
 @task("js-sbom", when="sbom:build")
 def sbom(cfg: ConfigTree) -> None:
     """Build the SBOMs for JavaScript applications of the current project"""
-    js_build_dir = cfg.spin.project_root / "build"
-    if not exists(js_build_dir):
-        setenv(PIP_INDEX_URL=cfg.python.index_url)
-        sh("python", "setup.py", "build_js")
-        setenv(PIP_INDEX_URL=None)
+    project_root = cfg.spin.project_root
+    if _build_emits_boms(cfg):
+        js_build_dir = project_root / "build"
+        if not exists(js_build_dir):
+            setenv(PIP_INDEX_URL=cfg.python.index_url)
+            sh("python", "setup.py", "build_js")
+            setenv(PIP_INDEX_URL=None)
+        else:
+            info(f"JS bundles already built {js_build_dir}, skipping build step.")
+        search_root = js_build_dir / "lib"
     else:
-        info(f"JS bundles already built {js_build_dir}, skipping build step.")
+        sh("webmake", "sbom", cfg.spin.project_name)
+        search_root = project_root
 
-    _collect_js_sboms(cfg.spin.project_root, cfg.js_sbom.repository_url)
+    _collect_js_sboms(search_root, project_root, cfg.js_sbom.repository_url)
 
 
-def _collect_js_sboms(project_root: Path, repository_url: str) -> None:
+def _build_emits_boms(cfg: ConfigTree) -> bool:
+    """Whether the JavaScript build writes the bom.json files itself"""
+    umbrella = interpolate1(cfg.contact_elements.umbrella)
+    if not umbrella or umbrella == "None":
+        die(
+            "'contact_elements.umbrella' is not set, so js-sbom cannot tell how "
+            "the JavaScript SBOMs have to be generated."
+        )
+    return umbrella in _LEGACY_UMBRELLAS
+
+
+def _find_boms(search_root: Path) -> Iterator[PathlibPath]:
+    """
+    Yield the bom.json files of the project's own JavaScript applications
+    below 'search_root'.
+
+    Provisioned environments and node_modules ship bom.json files of installed
+    dependencies, and a top level 'build' holds the output of the build_js
+    based code path, none of which describe this project.
+    """
+    root = os.fspath(search_root)
+    for dirpath, dirnames, filenames in os.walk(root):
+        dirnames[:] = [
+            name
+            for name in dirnames
+            if not name.startswith(".")
+            and name != "node_modules"
+            and not (name == "build" and dirpath == root)
+        ]
+        if os.path.basename(dirpath) == "bom" and "bom.json" in filenames:
+            yield PathlibPath(dirpath) / "bom.json"
+
+
+def _collect_js_sboms(
+    search_root: Path, project_root: Path, repository_url: str
+) -> None:
     """
     Collect the built bom.json files, fix up the primary component's purl,
-    and place them top level named by namespace.
+    and place them top level named after the application's path.
     """
-    build_lib = PathlibPath(project_root) / "build" / "lib"
-
-    for sbom_path in build_lib.glob("**/bom/bom.json"):
-        parts = sbom_path.relative_to(build_lib).parts
+    for sbom_path in _find_boms(search_root):
+        parts = sbom_path.relative_to(search_root).parts
         name_parts = [p for p in parts[:-3] if p != "js"]
         platform_tag = sysconfig.get_platform().replace("-", "_")
         dest_name = "-".join(name_parts) + f".{platform_tag}.js_sbom.cdx.json"

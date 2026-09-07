@@ -1,0 +1,18 @@
+# Stand-in for cs.webmake, providing a "webmake" entry point for the js_sbom
+# acceptance test. Installed into the fixture project's virtual environment via
+# "python.requirements" in ../spinfile.yaml.
+
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools>=64"]
+
+[project]
+description = "Stand-in for cs.webmake used by the js_sbom acceptance test"
+name = "fake-webmake"
+version = "0.1.0"
+
+[project.scripts]
+webmake = "fake_webmake:main"
+
+[tool.setuptools]
+py-modules = ["fake_webmake"]
