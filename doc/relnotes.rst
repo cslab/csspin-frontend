@@ -59,6 +59,17 @@
 Release Notes
 =============
 
+v3.0.3
+======
+
+September 7, 2026
+
+Bug Fixes
+---------
+
+- js_sbom: from UR 2027.1 JS SBOMs need to be generated via cs.webmake (`#59
+  <https://code.contact.de/pod/components/csspin-frontend/-/work_items/59>`_)
+
 v3.0.2
 ======
 
