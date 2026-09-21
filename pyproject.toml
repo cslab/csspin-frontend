@@ -4,7 +4,7 @@ requires = ["setuptools>=77", "setuptools_scm>=8"]
 
 [project]
 authors = [
-  {name = "CONTACT Software GmbH", email = "info@contact-software.com"}
+  { name = "CONTACT Software GmbH", email = "info@contact-software.com" }
 ]
 classifiers = [
   "Environment :: Console",
@@ -28,9 +28,9 @@ dynamic = ["version", "readme"]
 license = "Apache-2.0"
 license-files = ["LICENSE"]
 maintainers = [
-  {name = "Waleri Enns", email = "waleri.enns@contact-software.com"},
-  {name = "Benjamin Thomas Schwertfeger", email = "benjaminthomas.schwertfeger@contact-software.com"},
-  {name = "Fabian Hafer", email = "fabian.hafer@contact-software.com"}
+  { name = "Waleri Enns", email = "waleri.enns@contact-software.com" },
+  { name = "Benjamin Thomas Schwertfeger", email = "benjaminthomas.schwertfeger@contact-software.com" },
+  { name = "Fabian Hafer", email = "fabian.hafer@contact-software.com" }
 ]
 name = "csspin-frontend"
 requires-python = ">=3.10"
@@ -163,7 +163,7 @@ score = "no"
 markers = ["integration", "acceptance"]
 
 [tool.setuptools.dynamic]
-readme = {file = "README.rst", content-type = "text/x-rst"}
+readme = { file = "README.rst", content-type = "text/x-rst" }
 
 [tool.setuptools.package-data]
 csspin_frontend = ["*_schema.yaml"]
