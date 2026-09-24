@@ -59,6 +59,19 @@
 Release Notes
 =============
 
+v3.0.4
+======
+
+September 24, 2026
+
+Chores
+------
+
+- Make the ``js_sbom`` task run ``yarn`` quietly (`#63
+  <https://code.contact.de/pod/components/csspin-frontend/-/work_items/63>`_)
+- Fix TOML file formatting (`!89
+  <https://code.contact.de/pod/components/csspin-frontend/-/merge_requests/89>`_)
+
 v3.0.3
 ======
 
