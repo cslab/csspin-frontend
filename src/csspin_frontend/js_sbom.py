@@ -60,7 +60,7 @@ def sbom(cfg: ConfigTree) -> None:
         js_build_dir = project_root / "build"
         if not exists(js_build_dir):
             setenv(PIP_INDEX_URL=cfg.python.index_url)
-            sh("python", "setup.py", "build_js")
+            sh("python", "setup.py", "build_js", "-q")
             setenv(PIP_INDEX_URL=None)
         else:
             info(f"JS bundles already built {js_build_dir}, skipping build step.")
