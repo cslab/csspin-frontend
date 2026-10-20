@@ -20,8 +20,8 @@
 This plugin allows you to use Node.js in your spin environment. It can be
 configured to use a specific version of Node.js or to use the system's Node.js
 interpreter. If a version is specified, the plugin will install download the the
-specified version of Node.js as an artifact and will store it in spin.data. The
-plugin also installs npm and other required npm packages.
+specified version of Node.js as an artifact and will store it in
+node.install_dir. The plugin also installs npm and other required npm packages.
 """
 
 from __future__ import annotations
@@ -236,10 +236,10 @@ def _install_requirements(
 
 def _download_node(cfg: ConfigTree) -> Path:
     """
-    Download and unzip the configured node archive into {spin.data}/nodejs.
+    Download and unzip the configured node archive into node.install_dir.
     Returns the path to the node executable.
     """
-    node_install_base = interpolate1(Path("{spin.data}/nodejs/"))
+    node_install_base = cfg.node.install_dir
     exact_node_version = _determine_exact_node_version(cfg)
     node_dir = node_install_base / exact_node_version
     if sys.platform == "win32":

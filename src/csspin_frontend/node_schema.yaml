@@ -9,8 +9,9 @@ node:
         install_dir:
             type: path
             help: |
-                Directory where downloaded and NodeJS installations are stored
-                and being used from
+                Directory where downloaded NodeJS installations are stored and
+                used from, one subdirectory per version. Not used if node.use
+                is set.
         version:
             type: str
             help: |
