@@ -55,6 +55,18 @@ def test__determine_exact_node_version(version_string, expected_version):
     assert _determine_exact_node_version(cfg_mock) == expected_version
 
 
+@pytest.mark.parametrize("version_string", ("99.1.2", "v99.1.2"))
+def test__determine_exact_node_version_exact_version_needs_no_index(version_string):
+    """
+    Check whether an exact version is returned without requesting the node index.
+    """
+    cfg_mock = mock.MagicMock()
+    cfg_mock.node.version = version_string
+    with mock.patch("csspin_frontend.node._fetch_node_dist_index") as index_mock:
+        assert _determine_exact_node_version(cfg_mock) == "v99.1.2"
+    index_mock.assert_not_called()
+
+
 @pytest.mark.parametrize(
     "version_string",
     (

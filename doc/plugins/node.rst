@@ -87,7 +87,10 @@ done by setting the ``node.mirror`` property to the URL of the mirror.
 
 .. note::
 
-    The URL that ``node.mirror`` points to must point to the same site as https://nodejs.org/dist/.
+    The URL that ``node.mirror`` points to must behave the same as
+    https://nodejs.org/dist/.
+
+    The mirror is not contacted if ``node.use`` is set.
 
 ``csspin_frontend.node`` schema reference
 #########################################
