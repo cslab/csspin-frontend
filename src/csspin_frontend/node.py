@@ -28,6 +28,7 @@ from __future__ import annotations
 
 import json
 import platform
+import re
 import shutil
 import sys
 import tarfile
@@ -132,7 +133,7 @@ def provision(cfg: ConfigTree) -> None:
     )
     silent = cfg.verbosity < Verbosity.INFO
     if not npm.exists() or node_changed:
-        npm_req = f"npm@{_get_npm_version(cfg, node)}"
+        npm_req = f"npm@{_get_npm_version(outside_npm)}"
         _install_requirements([npm_req], npm=outside_npm, memo=False, silent=silent)
 
     requirements = []
@@ -145,21 +146,21 @@ def provision(cfg: ConfigTree) -> None:
 @cache
 def _fetch_node_dist_index(base_url) -> Any:
     """
-    Download "nodejs.org/dist/index.json" which contains information about
-    available nodejs versions and the matching npm versions.
+    Download "nodejs.org/dist/index.json" which contains all available nodejs
+    versions.
     """
     url = urljoin(base_url, "index.json")
     try:
-        with urlopen(url) as response:  # nosec: blacklist
+        with urlopen(url, timeout=10) as response:  # nosec: blacklist
             data = json.loads(response.read().decode("utf-8"))
-    except (HTTPError, URLError):
+    except (HTTPError, URLError, TimeoutError):
         die(
-            f"Could not lookup node/npm versions on {url}. "
+            f"Could not lookup node versions on {url}. "
             "Please check '{{{{node.mirror}}}}' or your internet connection."
         )
     except json.JSONDecodeError:
         die(
-            f"Could not lookup node/npm versions on {url}. The response seems to be malformed."
+            f"Could not lookup node versions on {url}. The response seems to be malformed."
         )
     return data
 
@@ -176,8 +177,10 @@ def _determine_exact_node_version(  # pylint: disable=inconsistent-return-statem
           version are provided, with or without a leading "v"
         - The version with a leading "v" if it was missing
     """
-    node_index_data = _fetch_node_dist_index(cfg.node.mirror)
     cfg.node.version = interpolate1(cfg.node.version)  # Cast into str
+    if re.fullmatch(r"v?\d+\.\d+\.\d+", cfg.node.version):
+        return f"v{cfg.node.version.removeprefix('v')}"
+    node_index_data = _fetch_node_dist_index(cfg.node.mirror)
     if cfg.node.version.lower() == "lts":
         # node_index_data is sorted, so let's just return the first LTS version
         for node_version_data in node_index_data:
@@ -193,20 +196,10 @@ def _determine_exact_node_version(  # pylint: disable=inconsistent-return-statem
     die(f"Could not determine a node version for '{cfg.node.version}'")
 
 
-def _get_npm_version(  # pylint: disable=inconsistent-return-statements
-    cfg: ConfigTree, node: Path
-) -> str:
-    """Get the recommended npm version for the given node interpreter"""
-    versions = {
-        entry["version"]: entry["npm"]
-        for entry in _fetch_node_dist_index(cfg.node.mirror)
-        if "version" in entry and "npm" in entry
-    }
-    proc = sh(node, "--version", stdout=PIPE, encoding="utf-8", silent=True)
-    try:
-        return versions[proc.stdout.strip()]
-    except KeyError:
-        die(f"Could not determine the npm version for {node}")
+def _get_npm_version(npm: Path) -> str:
+    """Get the version of the npm that is shipped with a node installation"""
+    proc = sh(npm, "--version", stdout=PIPE, encoding="utf-8", silent=True)
+    return proc.stdout.strip()
 
 
 def _install_requirements(
