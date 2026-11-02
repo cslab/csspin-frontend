@@ -227,6 +227,29 @@ def _install_requirements(
                 m.add(req)
 
 
+def _node_archive_name(exact_node_version: str) -> tuple[str, str]:
+    """
+    Return the base name and extension of the Node.js distribution archive
+    matching the current operating system and machine architecture.
+    """
+    # platform.machine() reports e.g. "x86_64" (Linux, macOS), "AMD64"
+    # (Windows), "aarch64" (Linux) or "arm64"/"ARM64" (macOS, Windows), while
+    # Node.js names its archives after "x64" and "arm64". Other values like
+    # "armv7l", "ppc64le" or "s390x" already match Node.js' naming.
+    machine = platform.machine().lower()
+    architecture = {
+        "x86_64": "x64",
+        "amd64": "x64",
+        "aarch64": "arm64",
+    }.get(machine, machine)
+
+    if sys.platform == "win32":
+        return f"node-{exact_node_version}-win-{architecture}", ".zip"
+    if sys.platform == "darwin":
+        return f"node-{exact_node_version}-darwin-{architecture}", ".tar.xz"
+    return f"node-{exact_node_version}-linux-{architecture}", ".tar.xz"
+
+
 def _download_node(cfg: ConfigTree) -> Path:
     """
     Download and unzip the configured node archive into node.install_dir.
@@ -242,16 +265,7 @@ def _download_node(cfg: ConfigTree) -> Path:
     if node.exists():
         return node
 
-    if sys.platform == "win32":
-        archive_ext = ".zip"
-        archive_base_name = f"node-{exact_node_version}-win-x64"
-    elif sys.platform == "darwin":
-        archive_ext = ".tar.xz"
-        machine_architecture = "arm64" if platform.machine() == "arm64" else "x64"
-        archive_base_name = f"node-{exact_node_version}-darwin-{machine_architecture}"
-    else:
-        archive_ext = ".tar.xz"
-        archive_base_name = f"node-{exact_node_version}-linux-x64"
+    archive_base_name, archive_ext = _node_archive_name(exact_node_version)
     archive = f"{archive_base_name}{archive_ext}"
     url = urljoin(cfg.node.mirror, f"{exact_node_version}/{archive}")
 
