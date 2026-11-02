@@ -2,13 +2,18 @@
 
 include:
     - project: pod/tools/spin_plugin_common
-      ref: v4.0.1
+      ref: v5.0.0
       file: ci/.gitlab-ci.yml
 
 # ------------------------------------------------------------------------------
+
+documentation:
+    image: registry.contact.de/cetest:2026.1-2.latest
+
 triggered_integration_tests_linux:
     # Use an image that has node installed to test the node.use use-case.
-    image: registry.contact.de/cetest:16.0-10.latest
+    # NOTE: we intentionally use the latest supported UR!
+    image: registry.contact.de/cetest:2026.1-2.latest
     before_script:
         # We need to overwrite this, as spin_plugin_common needs to install jq and
         # asserts that we're root, which isn't the case for cetest. But as jq is
@@ -26,4 +31,4 @@ triggered_integration_tests_linux:
 
 test_linux:
     # Overwrite image to have the necessary tools for ce_services in the CI
-    image: registry.contact.de/cetest:16.0-10.latest
+    image: registry.contact.de/cetest:2026.1-2.latest
