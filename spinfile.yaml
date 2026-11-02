@@ -19,7 +19,7 @@ plugins:
     - csspin_java.java
 
 contact_elements:
-    umbrella: '16.0'
+    umbrella: '2026.1'
 
 java:
     version: '21'
@@ -28,7 +28,7 @@ python:
     version: '3.11.9'
     requirements:
         - sphinx-rtd-theme
-    index_url: https://packages.contact.de/apps/16.0/+simple/
+    index_url: https://packages.contact.de/apps/16.1/+simple/
 
 node:
     version: v18.17.1
