@@ -19,7 +19,6 @@
 
 import os
 import subprocess  # nosec: blacklist
-from contextlib import nullcontext
 
 from csspin import Verbosity, config, die, interpolate1, option, setenv, sh, task
 from path import Path
@@ -97,24 +96,18 @@ def jest(  # pylint: disable=too-many-arguments,too-many-positional-arguments
         opts.append("--debug")
     if with_test_report and cfg.jest.report_opts:
         try:
-            environment = cfg.spin.subprocess_environment
-        except AttributeError:
-            environment = nullcontext
-
-        with environment():
-            try:
-                webmake_resources = subprocess.check_output(  # nosec
-                    [
-                        cfg.python.python,
-                        "-c",
-                        "from importlib import resources;"
-                        "print(str(resources.files('cs.webmake').joinpath('resources')))",
-                    ],
-                    stderr=subprocess.DEVNULL,
-                    text=True,
-                ).strip()
-            except (FileNotFoundError, subprocess.CalledProcessError):
-                webmake_resources = None
+            webmake_resources = subprocess.check_output(  # nosec
+                [
+                    cfg.python.python,
+                    "-c",
+                    "from importlib import resources;"
+                    "print(str(resources.files('cs.webmake').joinpath('resources')))",
+                ],
+                stderr=subprocess.DEVNULL,
+                text=True,
+            ).strip()
+        except (FileNotFoundError, subprocess.CalledProcessError):
+            webmake_resources = None
 
         if webmake_resources:
             node_modules_dir = Path(webmake_resources) / "node_modules"
