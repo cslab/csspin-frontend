@@ -23,3 +23,26 @@ node:
         mirror:
             type: str
             help: Proxy to get NodeJS sources from
+        registry_url:
+            type: str
+            help: |
+                URL of the npm registry or mirror used by npm and Yarn. Both
+                http and https URLs are allowed. Leave empty to use the default
+                registries. For the packages that the lock files of Yarn classic
+                pin (umbrella releases 2026.1 and 2026.2), see
+                'node.yarn_offline_mirror'.
+        yarn_offline_mirror:
+            type: path
+            help: |
+                Directory of package tarballs. Yarn classic reads the tarballs
+                of the packages that its lock files pin from this directory
+                before it asks a registry, and requests a pinned package that
+                the directory lacks from the registry URL in the lock file.
+                Packages that no lock file pins still resolve through a
+                registry. Only applies to the umbrella releases 2026.1 and
+                2026.2, which use Yarn classic. A relative path resolves
+                against the project root and '~' expands to the home
+                directory. The directory has to exist before 'spin provision',
+                which stops with an error otherwise. Yarn also saves every
+                tarball it downloads from a registry in the directory, so the
+                directory needs to be writable.
