@@ -37,10 +37,12 @@ must at least contain the following configuration.
         - csspin-frontend
     plugins:
         - csspin_frontend.node
+    contact_elements:
+        umbrella: '2026.2'
     python:
         version: '3.11.9'
     node:
-        version: '18.17.1'
+        version: '24'
 
 The provisioning of the required virtual environment as well as the plugins
 dependencies can be done via the well-known ``spin provision``-command.
@@ -82,7 +84,7 @@ done by setting the ``node.mirror`` property to the URL of the mirror.
 
     ...
     node:
-        version: '18.17.1'
+        version: '24'
         mirror: <the custom mirror goes here>
 
 .. note::
@@ -91,6 +93,55 @@ done by setting the ``node.mirror`` property to the URL of the mirror.
     https://nodejs.org/dist/.
 
     The mirror is not contacted if ``node.use`` is set.
+
+How to use a registry or mirror for npm and Yarn packages?
+##########################################################
+
+By default, npm and Yarn fetch packages from the public registries. How to point
+them elsewhere depends on the umbrella release (``contact_elements.umbrella``).
+The Node.js download uses ``node.mirror`` in both cases.
+
+Umbrella 2026.1 and 2026.2
+--------------------------
+
+These releases use Yarn classic. Its lock files pin packages to URLs of the
+public registry, which ``node.registry_url`` cannot redirect. Set
+``node.yarn_offline_mirror`` to a directory of package tarballs instead. Yarn
+reads pinned packages from it before asking a registry.
+
+.. code-block:: yaml
+
+    contact_elements:
+        umbrella: '2026.2'
+    node:
+        version: '24'
+        yarn_offline_mirror: <the directory of the tarballs goes here>
+
+- The directory has to exist before ``spin provision``, which stops with an
+  error otherwise. A relative path resolves against the project root and ``~``
+  expands to the home directory.
+- Yarn saves every tarball it downloads in the directory, so it has to be
+  writable. To fill it, run the project's Yarn installs once with access to the
+  public registries.
+- Yarn requests a tarball missing from the directory from its pinned URL, which
+  fails on a machine without access to that registry.
+- Packages that no lock file pins still need ``node.registry_url``, for example
+  the reporter that the jest plugin installs with ``--with-test-report``.
+
+Umbrella 2027.1 and later
+-------------------------
+
+These releases use Yarn Berry. Their lock files contain no registry URLs, so
+``node.registry_url`` covers npm and Yarn. The URL may use http or https. The
+plugin ignores ``node.yarn_offline_mirror`` and prints a warning.
+
+.. code-block:: yaml
+
+    contact_elements:
+        umbrella: '2027.1'
+    node:
+        version: '26'
+        registry_url: <the URL of the registry goes here>
 
 ``csspin_frontend.node`` schema reference
 #########################################

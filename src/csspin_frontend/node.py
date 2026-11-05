@@ -27,6 +27,7 @@ node.install_dir. The plugin also installs npm and other required npm packages.
 from __future__ import annotations
 
 import json
+import os
 import platform
 import re
 import shutil
@@ -38,7 +39,7 @@ from functools import cache
 from subprocess import PIPE  # nosec
 from tempfile import TemporaryDirectory
 from urllib.error import HTTPError, URLError
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlsplit
 from urllib.request import urlopen
 
 if typing.TYPE_CHECKING:
@@ -68,7 +69,7 @@ defaults = config(
     version=None,
     use=None,
     mirror="https://nodejs.org/dist/",
-    requires=config(spin=["csspin_python.python"]),
+    requires=config(spin=["csspin_ce.contact_elements", "csspin_python.python"]),
 )
 
 
@@ -94,9 +95,62 @@ def configure(cfg: ConfigTree) -> None:
     if cfg.node.mirror and not cfg.node.mirror.endswith("/"):
         cfg.node.mirror = f"{cfg.node.mirror}/"
 
+    if cfg.node.registry_url:
+        # npm and Yarn classic read npm_config_registry, Yarn Berry reads
+        # YARN_NPM_REGISTRY_SERVER.
+        setenv(npm_config_registry=cfg.node.registry_url)
+        if not _ships_yarn_classic(cfg):
+            setenv(YARN_NPM_REGISTRY_SERVER=cfg.node.registry_url)
+
+            registry = urlsplit(interpolate1(cfg.node.registry_url))
+            if registry.scheme == "http":
+                # Yarn Berry blocks plain http unless the host is whitelisted.
+                setenv(
+                    YARN_UNSAFE_HTTP_WHITELIST=_http_whitelist_with(registry.hostname)
+                )
+
+    if cfg.node.yarn_offline_mirror:
+        if _ships_yarn_classic(cfg):
+            # The lock files of Yarn classic pin packages to a URL of the
+            # public registry, which a registry setting cannot redirect. Yarn
+            # classic reads the tarballs from this directory before it asks a
+            # registry.
+            mirror = Path(interpolate1(cfg.node.yarn_offline_mirror)).expanduser()
+            cfg.node.yarn_offline_mirror = cfg.spin.project_root / mirror
+            setenv(YARN_YARN_OFFLINE_MIRROR=cfg.node.yarn_offline_mirror)
+        else:
+            warn(
+                "node.yarn_offline_mirror only applies to the umbrella releases"
+                " that use Yarn classic (2026.1 and 2026.2), ignoring it."
+            )
+            # Keeps `provision` from requiring a directory that nothing uses.
+            cfg.node.yarn_offline_mirror = None
+
+
+def _ships_yarn_classic(cfg: ConfigTree) -> bool:
+    """Return whether the configured umbrella release uses Yarn classic."""
+    return interpolate1(cfg.contact_elements.umbrella) in ("2026.1", "2026.2")
+
+
+def _http_whitelist_with(host: str) -> str:
+    """
+    Return the value of YARN_UNSAFE_HTTP_WHITELIST with `host` appended. Yarn
+    reads the variable as a comma-separated list.
+    """
+    if os.environ.get("YARN_UNSAFE_HTTP_WHITELIST"):
+        return f"{{YARN_UNSAFE_HTTP_WHITELIST}},{host}"
+    return host
+
 
 def provision(cfg: ConfigTree) -> None:
     """Provision the node plugin"""
+    mirror = cfg.node.yarn_offline_mirror
+    if mirror and not mirror.is_dir():
+        die(
+            f"node.yarn_offline_mirror is not an existing directory: {mirror}",
+            resolve=False,
+        )
+
     cmd_postfix = ".cmd" if sys.platform == "win32" else ""
 
     node = cfg.node.use or _download_node(cfg)
