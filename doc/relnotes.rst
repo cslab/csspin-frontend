@@ -59,6 +59,36 @@
 Release Notes
 =============
 
+v3.1.0
+======
+
+November 5, 2026
+
+Enhancements
+------------
+
+- ``node``: Add ``registry_url`` for npm and Yarn installs (`#64
+  <https://code.contact.de/pod/components/csspin-frontend/-/work_items/64>`_)
+
+Bug Fixes
+---------
+
+- ``node.install_dir`` is documented but ignored (`#66
+  <https://code.contact.de/pod/components/csspin-frontend/-/work_items/66>`_)
+- ``node`` plugin fetches ``index.json`` even when Node is already installed
+  (`#65
+  <https://code.contact.de/pod/components/csspin-frontend/-/work_items/65>`_)
+
+Chores
+------
+
+- Run Linux CI on Python 3.11 instead of 3.10 (`#69
+  <https://code.contact.de/pod/components/csspin-frontend/-/work_items/69>`_)
+- Make Node.js download platform aware (`!96
+  <https://code.contact.de/pod/components/csspin-frontend/-/merge_requests/96>`_)
+- Stop using deprecated ``spin.subprocess_environment`` in ``jest`` task (`!97
+  <https://code.contact.de/pod/components/csspin-frontend/-/merge_requests/97>`_)
+
 v3.0.4
 ======
 
