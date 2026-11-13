@@ -59,6 +59,18 @@
 Release Notes
 =============
 
+v3.1.2
+======
+
+November 13, 2026
+
+Bug Fixes
+---------
+
+- ``cypress``: Set ``npm_config_prefix`` for ``npx`` to avoid installing the
+  wrong version (`!101
+  <https://code.contact.de/pod/components/csspin-frontend/-/merge_requests/101>`_)
+
 v3.1.1
 ======
 
