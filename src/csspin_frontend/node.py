@@ -142,6 +142,15 @@ def _http_whitelist_with(host: str) -> str:
     return host
 
 
+def _npm_prefix(cfg: ConfigTree) -> Path:
+    """
+    Return the npm prefix of the virtual environment. npm installs global
+    packages below this directory. npx finds them there. On Windows, the prefix
+    is the `Scripts` directory.
+    """
+    return cfg.python.scriptdir if sys.platform == "win32" else cfg.python.venv
+
+
 def provision(cfg: ConfigTree) -> None:
     """Provision the node plugin"""
     mirror = cfg.node.yarn_offline_mirror
@@ -168,7 +177,6 @@ def provision(cfg: ConfigTree) -> None:
             copy(node, node_in_venv)
             node_changed = True
         node_path = cfg.python.scriptdir / "node_modules"
-        npm_config_prefix = cfg.python.scriptdir
     else:
         if (
             not node_in_venv.exists()
@@ -179,11 +187,10 @@ def provision(cfg: ConfigTree) -> None:
             node_in_venv.symlink_to(node)
             node_changed = True
         node_path = cfg.python.venv / "lib/node_modules"
-        npm_config_prefix = cfg.python.venv
 
     setenv(
         NODE_PATH=node_path,
-        npm_config_prefix=npm_config_prefix,
+        npm_config_prefix=_npm_prefix(cfg),
     )
     silent = cfg.verbosity < Verbosity.INFO
     if not npm.exists() or node_changed:
@@ -195,6 +202,15 @@ def provision(cfg: ConfigTree) -> None:
         plugin_module = cfg.loaded[plugin]
         requirements += get_requires(plugin_module.defaults, "npm")
     _install_requirements(requirements, silent=silent)
+
+
+def init(cfg: ConfigTree) -> None:
+    """
+    Export `npm_config_prefix` on every spin run. Later runs do not see the
+    variables that `provision` exports. Spin does not run `init` during
+    `provision`, so `provision` exports the prefix too.
+    """
+    setenv(npm_config_prefix=_npm_prefix(cfg))
 
 
 @cache
