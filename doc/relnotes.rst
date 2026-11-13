@@ -59,6 +59,18 @@
 Release Notes
 =============
 
+v3.1.1
+======
+
+November 13, 2026
+
+Chores
+------
+
+- Fix ``jest-sonar-reporter`` resolution for ``cs.webmake``'s ``node_modules``
+  archive fix (`!102
+  <https://code.contact.de/pod/components/csspin-frontend/-/merge_requests/102>`_)
+
 v3.1.0
 ======
 
