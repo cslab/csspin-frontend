@@ -18,10 +18,11 @@
 """Module implementing the jest plugin for csspin."""
 
 import os
-import subprocess  # nosec: blacklist
 
-from csspin import Verbosity, config, die, interpolate1, option, setenv, sh, task
+from csspin import Verbosity, config, die, interpolate1, mkdir, option, setenv, sh, task
 from path import Path
+
+_SONAR_REPORTER_PACKAGE = "@casualbot/jest-sonar-reporter"
 
 defaults = config(
     coverage=False,
@@ -34,7 +35,7 @@ defaults = config(
         "--passWithNoTests",
         "--noStackTrace",
     ],
-    report_opts=["--reporters=default", "--reporters=@casualbot/jest-sonar-reporter"],
+    report_opts=["--reporters=default", f"--reporters={_SONAR_REPORTER_PACKAGE}"],
     source="{spin.project_root}/cs",
     requires=config(
         spin=[
@@ -45,6 +46,31 @@ defaults = config(
         python=["cs.web"],
     ),
 )
+
+
+def _install_sonar_reporter(spin_dir: Path) -> Path:
+    """Install _SONAR_REPORTER_PACKAGE into its own directory, independent
+    of cs.webmake's node_modules, and return the path to its package
+    directory.
+    """
+    reporter_dir = spin_dir / "jest-sonar-reporter"
+    mkdir(reporter_dir)
+    package_json = reporter_dir / "package.json"
+    if not package_json.exists():
+        package_json.write_text("{}\n")
+    # Without this, yarn may treat an enclosing directory as this one's
+    # workspace root and refuse to add here as a standalone project.
+    yarn_lock = reporter_dir / "yarn.lock"
+    if not yarn_lock.exists():
+        yarn_lock.write_text("")
+    # Yarn defaults to Plug'n'Play (no node_modules at all) without this.
+    yarnrc = reporter_dir / ".yarnrc.yml"
+    if not yarnrc.exists():
+        yarnrc.write_text("nodeLinker: node-modules\n")
+
+    sh("yarn", "add", _SONAR_REPORTER_PACKAGE, cwd=reporter_dir)
+
+    return reporter_dir / "node_modules" / _SONAR_REPORTER_PACKAGE
 
 
 def configure(cfg):
@@ -95,38 +121,19 @@ def jest(  # pylint: disable=too-many-arguments,too-many-positional-arguments
     if debug:
         opts.append("--debug")
     if with_test_report and cfg.jest.report_opts:
-        try:
-            webmake_resources = subprocess.check_output(  # nosec
-                [
-                    cfg.python.python,
-                    "-c",
-                    "from importlib import resources;"
-                    "print(str(resources.files('cs.webmake').joinpath('resources')))",
-                ],
-                stderr=subprocess.DEVNULL,
-                text=True,
-            ).strip()
-        except (FileNotFoundError, subprocess.CalledProcessError):
-            webmake_resources = None
-
-        if webmake_resources:
-            node_modules_dir = Path(webmake_resources) / "node_modules"
-        else:
-            node_modules_dir = instance / "node_modules"
+        reporter_package = _install_sonar_reporter(cfg.spin.spin_dir)
 
         setenv(
             JEST_SONAR_OUTPUT_DIR=cfg.spin.project_root,
             JEST_SONAR_OUTPUT_NAME="jest-sonar.xml",
         )
 
-        sh(
-            "yarn",
-            "add",
-            "@casualbot/jest-sonar-reporter",
-            env={"NODE_PATH": node_modules_dir},
-            cwd=node_modules_dir.parent,
+        # report_opts is interpolated before tasks run, so the resolved reporter
+        # path can only be substituted here.
+        opts.extend(
+            opt.replace(_SONAR_REPORTER_PACKAGE, str(reporter_package))
+            for opt in cfg.jest.report_opts
         )
-        opts.extend(cfg.jest.report_opts)
 
     setenv(CADDOK_BASE=instance)
     sh("webmake", "-D", instance, "run-tests", cfg.spin.project_name, *opts, *args)
