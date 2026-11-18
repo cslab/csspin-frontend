@@ -151,6 +151,13 @@ def _npm_prefix(cfg: ConfigTree) -> Path:
     return cfg.python.scriptdir if sys.platform == "win32" else cfg.python.venv
 
 
+def _node_path(cfg: ConfigTree) -> Path:
+    """Return the directory where Node.js searches for global packages."""
+    if sys.platform == "win32":
+        return cfg.python.scriptdir / "node_modules"
+    return cfg.python.venv / "lib/node_modules"
+
+
 def provision(cfg: ConfigTree) -> None:
     """Provision the node plugin"""
     mirror = cfg.node.yarn_offline_mirror
@@ -176,7 +183,6 @@ def provision(cfg: ConfigTree) -> None:
         if not node_in_venv.exists():
             copy(node, node_in_venv)
             node_changed = True
-        node_path = cfg.python.scriptdir / "node_modules"
     else:
         if (
             not node_in_venv.exists()
@@ -186,10 +192,9 @@ def provision(cfg: ConfigTree) -> None:
             node_in_venv.remove_p()
             node_in_venv.symlink_to(node)
             node_changed = True
-        node_path = cfg.python.venv / "lib/node_modules"
 
     setenv(
-        NODE_PATH=node_path,
+        NODE_PATH=_node_path(cfg),
         npm_config_prefix=_npm_prefix(cfg),
     )
     silent = cfg.verbosity < Verbosity.INFO
@@ -206,11 +211,14 @@ def provision(cfg: ConfigTree) -> None:
 
 def init(cfg: ConfigTree) -> None:
     """
-    Export `npm_config_prefix` on every spin run. Later runs do not see the
-    variables that `provision` exports. Spin does not run `init` during
-    `provision`, so `provision` exports the prefix too.
+    Export `NODE_PATH` and `npm_config_prefix` on every spin run. Later runs do
+    not see the variables that `provision` exports. Spin does not run `init`
+    during `provision`, so `provision` exports the prefix too.
     """
-    setenv(npm_config_prefix=_npm_prefix(cfg))
+    setenv(
+        NODE_PATH=_node_path(cfg),
+        npm_config_prefix=_npm_prefix(cfg),
+    )
 
 
 @cache
